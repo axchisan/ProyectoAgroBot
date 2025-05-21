@@ -1,5 +1,5 @@
 Agrobot - Chatbot Agrícola
-Descripción
+Descripción:
 Agrobot es un chatbot basado en inteligencia artificial diseñado para asistir a pequeños agricultores en la toma de decisiones agrícolas. Proporciona recomendaciones personalizadas sobre siembra, manejo de plagas, uso de químicos, y planificación de cultivos según el clima.
 Instalación
 
