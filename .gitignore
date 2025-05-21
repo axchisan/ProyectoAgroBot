@@ -1,0 +1,21 @@
+# Entorno virtual
+venv/
+env/
+
+# Archivos de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos de Anaconda
+.conda/
+.conda_envs/
+
+# Archivos temporales
+*.log
+*.cache
+*.DS_Store
+
+# Dependencias
+node_modules/
