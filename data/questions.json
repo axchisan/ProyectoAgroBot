@@ -1,0 +1,71 @@
+{
+  "theoretical": [
+    {
+      "question": "¿Qué es Agrobot?",
+      "answer": "Agrobot es un chatbot diseñado para ayudar a pequeños agricultores con recomendaciones sobre siembra, clima y manejo de cultivos."
+    },
+    {
+      "question": "¿Qué es la agricultura sostenible?",
+      "answer": "La agricultura sostenible es un enfoque que busca satisfacer las necesidades actuales sin comprometer la capacidad de las futuras generaciones para satisfacer sus propias necesidades."
+    },
+    {
+      "question": "¿Cómo puedo controlar plagas de manera orgánica?",
+      "answer": "Puedes controlar plagas de manera orgánica utilizando insecticidas naturales, trampas y promoviendo la biodiversidad en tu cultivo."
+    },
+    {
+      "question": "¿Qué es la rotación de cultivos?",
+      "answer": "La rotación de cultivos es una práctica agrícola que consiste en alternar diferentes cultivos en el mismo terreno para mejorar la salud del suelo y reducir plagas."
+    },
+    {
+      "question": "¿Qué es la agricultura de precisión?",
+      "answer": "La agricultura de precisión es un enfoque que utiliza tecnología para monitorear y gestionar los cultivos de manera más eficiente, optimizando recursos y aumentando la productividad."
+    },
+    {
+      "question": "¿Cómo puedo acceder a financiamiento para mi proyecto agrícola?",
+      "answer": "Puedes acceder a financiamiento a través de programas gubernamentales, cooperativas agrícolas y organizaciones no gubernamentales que apoyan a pequeños agricultores."
+    },
+    {
+      "question": "¿Qué es la agroecología?",
+      "answer": "La agroecología es un enfoque que combina principios ecológicos y prácticas agrícolas sostenibles para mejorar la producción y la salud del ecosistema."
+    },
+    {
+      "question": "¿Qué es la agricultura regenerativa?",
+      "answer": "La agricultura regenerativa es un enfoque que busca restaurar la salud del suelo y los ecosistemas agrícolas a través de prácticas sostenibles y respetuosas con el medio ambiente."
+    },
+    {
+      "question": "¿Qué es la agricultura urbana?",
+      "answer": "La agricultura urbana es la práctica de cultivar, procesar y distribuir alimentos en áreas urbanas, promoviendo la sostenibilidad y la seguridad alimentaria."
+    },
+    {
+      "question": "¿Qué es la permacultura?",
+      "answer": "La permacultura es un enfoque de diseño agrícola que busca crear sistemas sostenibles y autosuficientes, imitando los patrones y relaciones de la naturaleza."
+    }
+  ],
+  "dynamic": [
+    {
+      "question": "¿Cómo consultar el clima?",
+      "type": "weather",
+      "answer_template": "Puedo darte el pronóstico del tiempo si me dices tu ciudad. Por ejemplo, pregunta: '¿Cuál es el clima en Bogotá?'"
+    },
+    {
+      "question": "¿Qué cultivos son recomendables para mi región?",
+      "type": "recommendation",
+      "answer_template": "Para darte recomendaciones de cultivos, necesito saber tu ubicación y el clima de tu región."
+    },
+    {
+      "question": "¿Qué cultivo me recomiendas sembrar en mi departamento?",
+      "type": "location_based_recommendation",
+      "answer_template": "Basado en los datos de tu departamento ({department}), el cultivo más destacado es {crop}."
+    },
+    {
+      "question": "¿Cuándo debo sembrar maíz?",
+      "type": "crop_timing",
+      "answer_template": "El mejor momento para sembrar {crop} es en {month}."
+    },
+    {
+      "question": "¿Cómo puedo optimizar el riego?",
+      "type": "irrigation_advice",
+      "answer_template": "Puedes optimizar el riego utilizando sistemas de riego por goteo, recolectando agua de lluvia y programando riegos según las necesidades de tus cultivos. Según el clima actual, {recommendation}."
+    }
+  ]
+}

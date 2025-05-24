@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido a Agrobot</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+    <img src="{{ url_for('static', filename='images/robot.png') }}" alt="AGROBOT" class="robot-icon">
+    <h1>¡Bienvenido a AGROBOT!</h1>
+    <p class="lead">Tu asistente agrícola inteligente</p>
+    <p class="text-dark">Consulta clima, mejora tus cultivos y recibe asesoría al instante</p>
+    <a href="{{ url_for('main.chat') }}" class="btn btn-custom">Comenzar</a>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
