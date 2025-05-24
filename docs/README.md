@@ -3,16 +3,15 @@ Descripción:
 Agrobot es un chatbot basado en inteligencia artificial diseñado para asistir a pequeños agricultores en la toma de decisiones agrícolas. Proporciona recomendaciones personalizadas sobre siembra, manejo de plagas, uso de químicos, y planificación de cultivos según el clima.
 Instalación
 
-Instalar Miniconda:
+Instalar Anaconda:
 
-Descarga Miniconda desde https://docs.conda.io/en/latest/miniconda.html.
 Sigue las instrucciones para tu sistema operativo.
 
 
 Crear entorno virtual:
 conda create -n agrobot python=3.8
 conda activate agrobot
-
+tambien puedes crear un entorno virtual con venv en python
 
 Instalar dependencias:
 pip install -r requirements.txt
@@ -31,10 +30,4 @@ data/: Datasets agrícolas.
 docs/: Documentación del proyecto.
 requirements.txt: Dependencias.
 .gitignore: Archivos ignorados por Git.
-
-Próximos Pasos
-
-Implementar el chatbot con Hugging Face.
-Integrar la API de OpenWeatherMap.
-Añadir datasets agrícolas.
 
