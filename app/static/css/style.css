@@ -1,0 +1,197 @@
+/* Fuente Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+/* Estilo general del body */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: url('../images/fondo_agrobot.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Contenedor principal */
+.container {
+    border-radius: 20px;
+    padding: 20px;
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    margin: 20px;
+}
+
+/* Título principal */
+h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #2e3d2a;
+    margin-bottom: 20px;
+}
+
+/* Tarjeta de contenido */
+.card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo de mensajes del chat */
+.chat-message {
+    background: #e6f0e6;
+    border-radius: 15px;
+    padding: 15px;
+    margin: 10px 0;
+    text-align: left;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.chat-message p {
+    margin: 5px 0;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.chat-message.bg-success {
+    background: #5cb85c;
+    color: white;
+}
+
+.chat-message.bg-success p {
+    color: white;
+}
+
+/* Iconos dentro de mensajes */
+.chat-message img.icon {
+    width: 20px;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+/* Estilo de botones */
+.btn-secondary-custom {
+    background-color: #5cb85c;
+    color: white;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-weight: 600;
+    border: none;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.btn-secondary-custom:hover {
+    background-color: #4aa34a;
+    transform: scale(1.05);
+}
+
+.btn-outline-secondary, .btn-outline-primary, .btn-outline-success {
+    border-radius: 25px;
+    padding: 8px 20px;
+    font-weight: 500;
+    transition: transform 0.2s ease;
+}
+
+.btn-outline-secondary:hover, .btn-outline-primary:hover, .btn-outline-success:hover {
+    transform: scale(1.05);
+}
+
+.btn-outline-primary {
+    border-color: #5cb85c;
+    color: #5cb85c;
+}
+
+.btn-outline-primary:hover {
+    background-color: #5cb85c;
+    color: white;
+}
+
+.btn-outline-success {
+    border-color: #5cb85c;
+    color: #5cb85c;
+}
+
+.btn-outline-success:hover {
+    background-color: #5cb85c;
+    color: white;
+}
+
+/* Estilo de la lista en recomendaciones */
+.list-group-item {
+    border: none;
+    padding: 10px 0;
+    font-size: 1rem;
+    color: #2e3d2a;
+    display: flex;
+    align-items: center;
+}
+
+.list-group-item img.icon {
+    width: 24px;
+    margin-right: 10px;
+}
+
+/* Estilo de barras de progreso */
+.progress {
+    height: 10px;
+    border-radius: 5px;
+    background-color: #e6f0e6;
+    margin-top: 5px;
+}
+
+.progress-bar {
+    background-color: #5cb85c;
+}
+
+.progress-bar.bg-danger {
+    background-color: #d9534f;
+}
+
+.progress-bar.bg-warning {
+    background-color: #f0ad4e;
+}
+
+/* Campo de entrada del formulario */
+.form-control.rounded-pill {
+    border-radius: 25px !important;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsividad */
+@media (max-width: 576px) {
+    .container {
+        padding: 15px;
+        margin: 10px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .btn-secondary-custom, .btn-outline-secondary, .btn-outline-primary, .btn-outline-success {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+
+    .chat-message {
+        padding: 10px;
+    }
+}
