@@ -9,7 +9,7 @@ Sigue las instrucciones para tu sistema operativo.
 
 
 Crear entorno virtual:
-conda create -n agrobot python=3.8
+conda create -n agrobot python=3.11
 conda activate agrobot
 tambien puedes crear un entorno virtual con venv en python
 
