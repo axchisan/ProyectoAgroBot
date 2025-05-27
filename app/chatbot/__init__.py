@@ -7,8 +7,8 @@ def init_chatbot():
     agricultural_data = load_agricultural_data("data/processed/crops_data.csv")
     department_data = load_department_data("data/raw/departments_data.csv")
     
-    # API key de Cohere
-    api_key = "rULZJwpsI3wUmnaJwDMGTqwRpDLvHbHoZZRURNLh"  # Reemplaza con tu clave API de Cohere
+    # API key de OpenAI
+    api_key = "aca va la api"
     
     # Inicializar el QuestionProcessor con la API key
     processor = QuestionProcessor(
@@ -16,6 +16,6 @@ def init_chatbot():
         agricultural_data,
         department_data,
         api_key=api_key,
-        api_type="cohere"  # Usaremos la API de Cohere
+        api_type="openai"  
     )
     return processor
