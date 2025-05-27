@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request # type: ignore
+from flask import Blueprint, render_template, request, session # type: ignore
 from ..chatbot import init_chatbot
 
 bp = Blueprint('main', __name__)
@@ -15,7 +15,16 @@ def chat():
     response = None
     if request.method == 'POST':
         user_input = request.form.get('user_input')
-        response = processor.process_question(user_input)
+        # Obtener la ciudad y el departamento de la sesión, o usar valores por defecto
+        city = session.get('city', 'Bogotá')
+        department = session.get('department', 'Cundinamarca')
+        response = processor.process_question(user_input, city, department)
+        # Si el usuario menciona una ciudad o departamento, actualizar la sesión
+        if "estoy en" in user_input.lower() or "mi ciudad es" in user_input.lower():
+            new_location = processor.extract_location(user_input)
+            if new_location:
+                session['city'] = new_location.get('city', city)
+                session['department'] = new_location.get('department', department)
     return render_template('chat.html', response=response)
 
 @bp.route('/weather')
