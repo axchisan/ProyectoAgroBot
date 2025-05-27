@@ -16,6 +16,9 @@ tambien puedes crear un entorno virtual con venv en python
 Instalar dependencias:
 pip install -r requirements.txt
 
+ejecuta el comando
+python train_intent_classifier.py
+esto para entrenar el modelo de procesamiento natural en tu maquina(puede tardar bastante)
 
 Ejecutar la aplicación:
 python app.py
