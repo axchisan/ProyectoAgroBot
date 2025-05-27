@@ -79,83 +79,104 @@
     {
       "question": "¿Qué es la erosión del suelo?",
       "answer": "La erosión del suelo es la pérdida de la capa superior del suelo debido a factores como el viento, el agua o la actividad humana, lo que reduce la fertilidad y afecta la productividad agrícola."
+    },
+    {
+      "question": "¿Cómo siembro en invernadero?",
+      "answer": "Usa sustratos como turba, controla temperatura (20-30°C) y asegura ventilación."
+    },
+    {
+      "question": "¿Qué es siembra hidropónica?",
+      "answer": "Cultivar plantas sin suelo, usando soluciones nutritivas en agua."
+    },
+    {
+      "question": "¿Qué son abonos orgánicos?",
+      "answer": "Fertilizantes naturales como compost o estiércol que enriquecen el suelo."
+    },
+    {
+      "question": "¿Qué es compostaje?",
+      "answer": "Proceso de descomposición de materia orgánica para producir abono natural."
     }
   ],
   "dynamic": [
     {
       "question": "¿Cómo consultar el clima?",
       "type": "weather",
-      "answer_template": "Puedo darte el pronóstico del tiempo si me dices tu ciudad. Por ejemplo, pregunta: '¿Cuál es el clima en Bogotá?'"
+      "answer_template": "Dime tu ciudad, por ejemplo: '¿Cuál es el clima en Bogotá?'"
     },
     {
       "question": "¿Cuál es el clima en mi ciudad?",
       "type": "weather",
-      "answer_template": "El clima en tu ciudad ({city}) es {description} con una temperatura de {temp}°C."
+      "answer_template": "El clima en {city} es {description} con {temp}°C."
     },
     {
       "question": "¿Cuál será el clima mañana en Medellín?",
       "type": "weather_forecast",
-      "answer_template": "No tengo acceso a pronósticos futuros, pero puedo darte el clima actual en Medellín. ¿Te interesa?"
+      "answer_template": "No tengo pronósticos futuros, pero te doy el clima actual. ¿Interesado?"
     },
     {
       "question": "¿Dónde estoy ubicado?",
       "type": "current_location",
-      "answer_template": "Según los datos que has proporcionado, estás en {city}, {department}. ¿Es correcto?"
+      "answer_template": "Estás en {city}, {department}. ¿Correcto?"
     },
     {
       "question": "¿Qué cultivos son recomendables para mi región?",
       "type": "recommendation",
-      "answer_template": "Para darte recomendaciones de cultivos, necesito saber tu ubicación y el clima de tu región. ¿Puedes decirme en qué departamento estás?"
+      "answer_template": "Dime tu departamento para recomendarte cultivos."
     },
     {
       "question": "¿Qué cultivo me recomiendas sembrar en mi departamento?",
       "type": "location_based_recommendation",
-      "answer_template": "Basado en los datos de tu departamento ({department}), el cultivo más destacado es {crop} con un rendimiento de {yield_value} toneladas por hectárea."
+      "answer_template": "En {department}, te recomiendo {crop} con {yield_value} toneladas/ha."
     },
     {
       "question": "¿En qué departamento es más rentable sembrar guayaba?",
       "type": "crop_profitability",
-      "answer_template": "Basado en los datos, el departamento más rentable para sembrar {crop} es {department} con un rendimiento de {yield_value} toneladas por hectárea."
+      "answer_template": "{crop} es más rentable en {department} con {yield_value} toneladas/ha."
     },
     {
       "question": "¿En qué departamento se produce menos maíz?",
       "type": "crop_production",
-      "answer_template": "El departamento donde se produce menos {crop} es {department} con una producción de {production} toneladas."
+      "answer_template": "Menos {crop} se produce en {department} con {production} toneladas."
     },
     {
       "question": "¿Cuándo debo sembrar maíz?",
       "type": "crop_timing",
-      "answer_template": "El mejor momento para sembrar {crop} es en {month}."
+      "answer_template": "Sembrar {crop} es ideal en {month}."
     },
     {
       "question": "¿Cómo puedo optimizar el riego?",
       "type": "irrigation_advice",
-      "answer_template": "Puedes optimizar el riego utilizando sistemas de riego por goteo, recolectando agua de lluvia y programando riegos según las necesidades de tus cultivos. Según el clima actual en {city}, {recommendation}."
+      "answer_template": "Optimiza con riego por goteo. En {city}, {recommendation}."
     },
     {
       "question": "¿Qué departamento produce más café?",
       "type": "crop_production",
-      "answer_template": "El departamento que produce más {crop} es {department} con una producción de {production} toneladas."
+      "answer_template": "Más {crop} se produce en {department} con {production} toneladas."
     },
     {
       "question": "¿Qué cultivo es más rentable en Antioquia?",
       "type": "crop_profitability",
-      "answer_template": "En {department}, el cultivo más rentable es {crop} con un rendimiento de {yield_value} toneladas por hectárea."
+      "answer_template": "En {department}, {crop} es rentable con {yield_value} toneladas/ha."
     },
     {
       "question": "¿Cuál es la producción de tomate en Cundinamarca?",
       "type": "crop_production",
-      "answer_template": "La producción de {crop} en {department} es de {production} toneladas."
+      "answer_template": "{crop} en {department} produce {production} toneladas."
     },
     {
       "question": "¿Qué cultivo tiene el mayor rendimiento en Valle del Cauca?",
       "type": "crop_profitability",
-      "answer_template": "En {department}, el cultivo con mayor rendimiento es {crop} con {yield_value} toneladas por hectárea."
+      "answer_template": "En {department}, {crop} rinde {yield_value} toneladas/ha."
     },
     {
       "question": "¿Cómo está el clima para sembrar en mi región?",
       "type": "weather_sowing_advice",
-      "answer_template": "El clima actual en {city} es {description} con {temp}°C y una humedad de {humidity}%. {recommendation}"
+      "answer_template": "En {city}: {description}, {temp}°C, {humidity}%. {recommendation}"
+    },
+    {
+      "question": "¿Cómo siembro en invernadero?",
+      "type": "theoretical",
+      "answer_template": "Usa sustratos, mantén 20-30°C y ventila bien."
     }
   ]
 }
