@@ -19,3 +19,36 @@ __pycache__/
 
 # Dependencias
 node_modules/
+
+# Entorno virtual de Anaconda (si está dentro del proyecto)
+agrobot/
+
+# Carpeta de resultados del entrenamiento
+results/
+
+# Carpeta de logs (si existe)
+logs/
+
+# Modelo entrenado
+app/models/intent_classifier/
+
+# Archivos temporales de Python
+__pycache__/
+*.pyc
+
+# Archivos de caché de entornos o editores
+.env
+.venv
+*.egg-info
+*.egg
+.DS_Store
+
+
+
+# Archivos grandes de datos (ajusta según necesites)
+# data/processed/crops_data.csv  # Descomenta si decides ignorarlo
+# data/processed/Área, Producción y Rendimiento Nacional por Cultivo
+
+# Archivos de entrenamiento intermedios
+*.pt
+*.bin

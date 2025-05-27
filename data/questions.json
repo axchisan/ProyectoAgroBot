@@ -39,6 +39,46 @@
     {
       "question": "¿Qué es la permacultura?",
       "answer": "La permacultura es un enfoque de diseño agrícola que busca crear sistemas sostenibles y autosuficientes, imitando los patrones y relaciones de la naturaleza."
+    },
+    {
+      "question": "¿Qué son los cultivos transgénicos?",
+      "answer": "Los cultivos transgénicos son plantas que han sido modificadas genéticamente para mejorar características como resistencia a plagas, tolerancia a herbicidas o mayor rendimiento."
+    },
+    {
+      "question": "¿Qué es el manejo integrado de plagas?",
+      "answer": "El manejo integrado de plagas (MIP) es un enfoque que combina diferentes métodos, como biológicos, culturales y químicos, para controlar plagas de manera sostenible y minimizar el impacto ambiental."
+    },
+    {
+      "question": "¿Qué es la lixiviación de nutrientes?",
+      "answer": "La lixiviación de nutrientes es el proceso por el cual los nutrientes del suelo, como nitrógeno o potasio, se pierden al ser arrastrados por el agua, afectando la fertilidad del suelo."
+    },
+    {
+      "question": "¿Qué es la agricultura biodinámica?",
+      "answer": "La agricultura biodinámica es un enfoque holístico que considera la finca como un organismo vivo, utilizando prácticas sostenibles y ciclos naturales para mejorar la salud del suelo y los cultivos."
+    },
+    {
+      "question": "¿Qué es la fertilidad del suelo?",
+      "answer": "La fertilidad del suelo es la capacidad del suelo para proporcionar los nutrientes necesarios para el crecimiento de las plantas, influenciada por factores como materia orgánica, pH y textura."
+    },
+    {
+      "question": "¿Qué es el monocultivo?",
+      "answer": "El monocultivo es la práctica de cultivar una sola especie de planta en un área grande durante varios ciclos, lo que puede agotar el suelo y aumentar la vulnerabilidad a plagas."
+    },
+    {
+      "question": "¿Qué es la agricultura de conservación?",
+      "answer": "La agricultura de conservación es un sistema que promueve la mínima alteración del suelo, la cobertura permanente del suelo y la diversificación de cultivos para mejorar la sostenibilidad."
+    },
+    {
+      "question": "¿Qué son los biofertilizantes?",
+      "answer": "Los biofertilizantes son productos que contienen microorganismos vivos que mejoran la disponibilidad de nutrientes en el suelo, como bacterias fijadoras de nitrógeno."
+    },
+    {
+      "question": "¿Qué es el pH del suelo y por qué es importante?",
+      "answer": "El pH del suelo mide su acidez o alcalinidad. Es importante porque afecta la disponibilidad de nutrientes para las plantas; la mayoría de los cultivos prosperan en un pH entre 6 y 7."
+    },
+    {
+      "question": "¿Qué es la erosión del suelo?",
+      "answer": "La erosión del suelo es la pérdida de la capa superior del suelo debido a factores como el viento, el agua o la actividad humana, lo que reduce la fertilidad y afecta la productividad agrícola."
     }
   ],
   "dynamic": [
@@ -48,14 +88,39 @@
       "answer_template": "Puedo darte el pronóstico del tiempo si me dices tu ciudad. Por ejemplo, pregunta: '¿Cuál es el clima en Bogotá?'"
     },
     {
+      "question": "¿Cuál es el clima en mi ciudad?",
+      "type": "weather",
+      "answer_template": "El clima en tu ciudad ({city}) es {description} con una temperatura de {temp}°C."
+    },
+    {
+      "question": "¿Cuál será el clima mañana en Medellín?",
+      "type": "weather_forecast",
+      "answer_template": "No tengo acceso a pronósticos futuros, pero puedo darte el clima actual en Medellín. ¿Te interesa?"
+    },
+    {
+      "question": "¿Dónde estoy ubicado?",
+      "type": "current_location",
+      "answer_template": "Según los datos que has proporcionado, estás en {city}, {department}. ¿Es correcto?"
+    },
+    {
       "question": "¿Qué cultivos son recomendables para mi región?",
       "type": "recommendation",
-      "answer_template": "Para darte recomendaciones de cultivos, necesito saber tu ubicación y el clima de tu región."
+      "answer_template": "Para darte recomendaciones de cultivos, necesito saber tu ubicación y el clima de tu región. ¿Puedes decirme en qué departamento estás?"
     },
     {
       "question": "¿Qué cultivo me recomiendas sembrar en mi departamento?",
       "type": "location_based_recommendation",
-      "answer_template": "Basado en los datos de tu departamento ({department}), el cultivo más destacado es {crop}."
+      "answer_template": "Basado en los datos de tu departamento ({department}), el cultivo más destacado es {crop} con un rendimiento de {yield_value} toneladas por hectárea."
+    },
+    {
+      "question": "¿En qué departamento es más rentable sembrar guayaba?",
+      "type": "crop_profitability",
+      "answer_template": "Basado en los datos, el departamento más rentable para sembrar {crop} es {department} con un rendimiento de {yield_value} toneladas por hectárea."
+    },
+    {
+      "question": "¿En qué departamento se produce menos maíz?",
+      "type": "crop_production",
+      "answer_template": "El departamento donde se produce menos {crop} es {department} con una producción de {production} toneladas."
     },
     {
       "question": "¿Cuándo debo sembrar maíz?",
@@ -65,7 +130,32 @@
     {
       "question": "¿Cómo puedo optimizar el riego?",
       "type": "irrigation_advice",
-      "answer_template": "Puedes optimizar el riego utilizando sistemas de riego por goteo, recolectando agua de lluvia y programando riegos según las necesidades de tus cultivos. Según el clima actual, {recommendation}."
+      "answer_template": "Puedes optimizar el riego utilizando sistemas de riego por goteo, recolectando agua de lluvia y programando riegos según las necesidades de tus cultivos. Según el clima actual en {city}, {recommendation}."
+    },
+    {
+      "question": "¿Qué departamento produce más café?",
+      "type": "crop_production",
+      "answer_template": "El departamento que produce más {crop} es {department} con una producción de {production} toneladas."
+    },
+    {
+      "question": "¿Qué cultivo es más rentable en Antioquia?",
+      "type": "crop_profitability",
+      "answer_template": "En {department}, el cultivo más rentable es {crop} con un rendimiento de {yield_value} toneladas por hectárea."
+    },
+    {
+      "question": "¿Cuál es la producción de tomate en Cundinamarca?",
+      "type": "crop_production",
+      "answer_template": "La producción de {crop} en {department} es de {production} toneladas."
+    },
+    {
+      "question": "¿Qué cultivo tiene el mayor rendimiento en Valle del Cauca?",
+      "type": "crop_profitability",
+      "answer_template": "En {department}, el cultivo con mayor rendimiento es {crop} con {yield_value} toneladas por hectárea."
+    },
+    {
+      "question": "¿Cómo está el clima para sembrar en mi región?",
+      "type": "weather_sowing_advice",
+      "answer_template": "El clima actual en {city} es {description} con {temp}°C y una humedad de {humidity}%. {recommendation}"
     }
   ]
 }
