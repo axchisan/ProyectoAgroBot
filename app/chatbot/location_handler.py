@@ -1,6 +1,8 @@
 import pandas as pd # type: ignore
+# Este archivo gestiona la lógica de ubicación y recomendaciones basadas en datos geográficos.
 
-# Lista de ciudades y departamentos simulad
+
+# Diccionario predefinido de ciudades y departamentos colombianos 
 LOCATION_DATA = {
     "bogotá": {"city": "Bogotá", "department": "Cundinamarca"},
     "medellín": {"city": "Medellín", "department": "Antioquia"},
@@ -22,12 +24,12 @@ LOCATION_DATA = {
 }
 
 def extract_location(user_input: str, department_data: pd.DataFrame = None) -> dict:
+    # Extrae la ciudad o departamento del texto del usuario, buscando coincidencias en LOCATION_DATA o en department_data.
+    # Retorna un diccionario con city y department o None si no se encuentra.
     user_input = user_input.lower()
-    # Buscar en el diccionario de ubicaciones
     for location, data in LOCATION_DATA.items():
         if location in user_input:
             return data
-    # Si no se encuentra en el diccionario, buscar en el dataset de departamentos
     if department_data is not None and not department_data.empty:
         for dept in department_data["departamento"].str.lower().unique():
             if dept in user_input:
@@ -35,6 +37,8 @@ def extract_location(user_input: str, department_data: pd.DataFrame = None) -> d
     return None
 
 def recommend_crop_by_location(department: str, department_data: pd.DataFrame) -> dict:
+    # Recomienda el cultivo más rentable para un departamento basado en el rendimiento máximo.
+    # Usamos pandas para filtrar y encontrar el cultivo con mayor rendimiento_ton_ha.
     if department and not department_data.empty:
         dept_data = department_data[department_data["departamento"].str.lower() == department.lower()]
         if not dept_data.empty:
@@ -47,6 +51,8 @@ def recommend_crop_by_location(department: str, department_data: pd.DataFrame) -
     return None
 
 def get_production_data(crop: str, department: str, department_data: pd.DataFrame) -> dict:
+    # Obtiene datos de producción para un cultivo específico en un departamento.
+    # Filtra department_data usando pandas y retorna producción en toneladas.
     if crop and department and not department_data.empty:
         data = department_data[
             (department_data["cultivo_destacado"].str.lower() == crop.lower()) &
@@ -61,6 +67,8 @@ def get_production_data(crop: str, department: str, department_data: pd.DataFram
     return None
 
 def get_crop_profitability(crop: str, department_data: pd.DataFrame) -> dict:
+    # Determina la rentabilidad de un cultivo buscando el departamento con mayor rendimiento.
+    # Usa pandas para maximizar rendimiento_ton_ha.
     if crop and not department_data.empty:
         data = department_data[department_data["cultivo_destacado"].str.lower() == crop.lower()]
         if not data.empty:
@@ -73,6 +81,7 @@ def get_crop_profitability(crop: str, department_data: pd.DataFrame) -> dict:
     return None
 
 def get_department_with_min_production(crop: str, department_data: pd.DataFrame) -> dict:
+    # Identifica el departamento con menor producción de un cultivo.
     if crop and not department_data.empty:
         data = department_data[department_data["cultivo_destacado"].str.lower() == crop.lower()]
         if not data.empty and "produccion_ton" in data.columns:
@@ -85,6 +94,8 @@ def get_department_with_min_production(crop: str, department_data: pd.DataFrame)
     return None
 
 def get_department_with_max_production(crop: str, department_data: pd.DataFrame) -> dict:
+    # Identifica el departamento con mayor producción de un cultivo.
+    # con pandas se  maximiza produccion_ton
     if crop and not department_data.empty:
         data = department_data[department_data["cultivo_destacado"].str.lower() == crop.lower()]
         if not data.empty and "produccion_ton" in data.columns:
