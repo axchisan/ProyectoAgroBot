@@ -69,16 +69,16 @@ class QuestionProcessor:
                         {"role": "system", "content": self.initial_prompt},
                         {"role": "user", "content": user_input}
                     ],
-                    "max_tokens": 300,  # Máximo de tokens para cumplir con el límite de 300 palabras
-                    "temperature": 0.3  # Mantener precisión
+                    "max_tokens": 300,  # Máximo de de 300 palabras
+                    "temperature": 0.3  # nivel precisión
                 }
                 print(f"Intentando llamar a {url} con payload: {payload}")
                 response = requests.post(url, json=payload, headers=headers)
                 response.raise_for_status()
                 raw_response = response.json()["choices"][0]["message"]["content"].strip()
-                # Corrección básica de tipeos
-                raw_response = re.sub(r'\b(\w+)(\w)\2+\b', r'\1\2', raw_response)  # Elimina letras duplicadas
-                raw_response = re.sub(r'\s+', ' ', raw_response)  # Corrige espacios múltiples
+                # Corrección  de tipeos
+                raw_response = re.sub(r'\b(\w+)(\w)\2+\b', r'\1\2', raw_response)  #
+                raw_response = re.sub(r'\s+', ' ', raw_response)  
                 return raw_response
             else:
                 return "Tipo de API no soportado. Usa 'openai'."
@@ -94,7 +94,7 @@ class QuestionProcessor:
         sentiment = self.nlp_processor.analyze_sentiment(user_input)
         sentiment_prefix = "¡Entiendo que estás preocupado! " if sentiment["compound"] < -0.1 else ""
 
-        # Clasificar la intención
+        # Clasificar  intención
         intent = self.nlp_processor.classify_intent(user_input, self.intent_labels)
         print(f"Intención clasificada para '{user_input}': {intent}")
 

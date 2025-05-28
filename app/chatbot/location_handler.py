@@ -1,6 +1,6 @@
 import pandas as pd # type: ignore
 
-# Lista de ciudades y departamentos (simulada, podría expandirse con un dataset real)
+# Lista de ciudades y departamentos simulad
 LOCATION_DATA = {
     "bogotá": {"city": "Bogotá", "department": "Cundinamarca"},
     "medellín": {"city": "Medellín", "department": "Antioquia"},
