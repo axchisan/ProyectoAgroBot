@@ -5,7 +5,11 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trai
 import torch # type: ignore
 from torch.utils.data import Dataset # type: ignore
 import re
-
+# Este archivo contiene utilidades para entrenar un modelo de clasificación de intenciones.
+#pandas y sklearn manejan datos y división de entrenamiento/validación.
+#transformers (de Hugging Face) usa modelos preentrenados en este caso BERT español.
+#torch y Dataset soportan el entrenamiento en deep learning.
+#re` normaliza texto.
 def normalize_text(text: str) -> str:
     """Normaliza el texto eliminando puntuación y convirtiéndolo a minúsculas."""
     text = text.lower().strip()
