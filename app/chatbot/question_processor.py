@@ -10,7 +10,7 @@ from .location_handler import (extract_location, recommend_crop_by_location,
 from .nlp_processor import NLPProcessor
 
 class QuestionProcessor:
-    def __init__(self, questions_data: Dict, agricultural_data: pd.DataFrame, department_data: pd.DataFrame, api_key: str = None, api_type: str = "cohere"):
+    def __init__(self, questions_data: Dict, agricultural_data: pd.DataFrame, department_data: pd.DataFrame, api_key: str = None, api_type: str = "openai"):
         self.questions_data = questions_data
         self.agricultural_data = agricultural_data
         self.department_data = department_data
@@ -26,7 +26,7 @@ class QuestionProcessor:
             "Eres un complemento para el desarrollo de Agrobot, un chatbot colombiano diseñado para ayudar a pequeños agricultores. "
             "Tu rol es resolver preguntas que Agrobot no puede responder, ofreciendo conceptos, consejos y recomendaciones sobre cultivos, "
             "agricultura sostenible, manejo de plagas, y otros temas agrícolas relevantes para campesinos en Colombia. "
-            "Responde siempre en español, de manera clara, práctica y adaptada al contexto colombiano, usando un lenguaje sencillo y amigable, usando como maximo 300 palabras. "
+            "Responde siempre en español, de manera clara, práctica y adaptada al contexto colombiano, usando un lenguaje sencillo y amigable, usando como máximo 300 palabras. "
             "Si la pregunta es sobre técnicas agrícolas (como poda, siembra, recolección o manejo de plagas), proporciona pasos específicos, enumera las razones o beneficios, "
             "y asegura que la respuesta sea útil para un agricultor con conocimientos básicos. Cada respuesta debe tener al menos 150 palabras, "
             "evitando errores ortográficos o tipográficos. Ejemplo:\n"
@@ -52,74 +52,36 @@ class QuestionProcessor:
         return None
 
     def call_external_api(self, user_input: str) -> str:
-        if not self.api_key and self.api_type in ["cohere", "xai", "openai"]:
+        if not self.api_key and self.api_type == "openai":
             return "No tengo acceso a una API externa. Configura una clave API para respuestas avanzadas."
         full_prompt = f"{self.initial_prompt}\nPregunta del usuario: {user_input}"
         try:
-            if self.api_type == "cohere":
-                url = "https://api.cohere.ai/v1/generate"
-                headers = {
-                    "Authorization": f"Bearer {self.api_key}",
-                    "Content-Type": "application/json"
-                }
-                payload = {
-                    "prompt": full_prompt,
-                    "max_tokens": 300,  # cantidad de palabras
-                    "temperature": 0.3,  # nivel precisión
-                    "k": 50,
-                    "stop_sequences": [],
-                    "return_likelihoods": "NONE"
-                }
-                print(f"Intentando llamar a {url} con payload: {payload}")
-                response = requests.post(url, json=payload, headers=headers)
-                response.raise_for_status()
-                raw_response = response.json()["generations"][0]["text"].strip()
-                if "Pregunta del usuario:" in raw_response:
-                    raw_response = raw_response.split("Pregunta del usuario:")[1].strip()
-                # Corrección básica de tipeos
-                raw_response = re.sub(r'\b(\w+)(\w)\2+\b', r'\1\2', raw_response)  # Elimina letras duplicadas
-                raw_response = re.sub(r'\s+', ' ', raw_response)  # Corrige espacios múltiples
-                return raw_response
-            elif self.api_type == "xai":
-                url = "https://api.x.ai/v1/chat/completions"
-                headers = {
-                    "Authorization": f"Bearer {self.api_key}",
-                    "Content-Type": "application/json"
-                }
-                payload = {
-                    "model": "grok",
-                    "messages": [
-                        {"role": "system", "content": self.initial_prompt},
-                        {"role": "user", "content": user_input}
-                    ],
-                    "max_tokens": 200,
-                    "temperature": 0,
-                    "stream": False
-                }
-                print(f"Intentando llamar a {url} con payload: {payload}")
-                response = requests.post(url, json=payload, headers=headers)
-                response.raise_for_status()
-                return response.json()["choices"][0]["message"]["content"]
-            elif self.api_type == "openai":
+            if self.api_type == "openai":
                 url = "https://api.openai.com/v1/chat/completions"
                 headers = {
                     "Authorization": f"Bearer {self.api_key}",
                     "Content-Type": "application/json"
                 }
                 payload = {
-                    "model": "gpt-3.5-turbo",
+                    "model": "gpt-4o-mini",
+                    "store": True,
                     "messages": [
                         {"role": "system", "content": self.initial_prompt},
                         {"role": "user", "content": user_input}
                     ],
-                    "max_tokens": 200,
-                    "temperature": 0.7
+                    "max_tokens": 300,  # Máximo de de 300 palabras
+                    "temperature": 0.3  # nivel precisión
                 }
+                print(f"Intentando llamar a {url} con payload: {payload}")
                 response = requests.post(url, json=payload, headers=headers)
                 response.raise_for_status()
-                return response.json()["choices"][0]["message"]["content"]
+                raw_response = response.json()["choices"][0]["message"]["content"].strip()
+                # Corrección  de tipeos
+                raw_response = re.sub(r'\b(\w+)(\w)\2+\b', r'\1\2', raw_response)  #
+                raw_response = re.sub(r'\s+', ' ', raw_response)  
+                return raw_response
             else:
-                return "Tipo de API no soportado. Usa 'cohere', 'xai' o 'openai'."
+                return "Tipo de API no soportado. Usa 'openai'."
         except requests.exceptions.HTTPError as e:
             return f"Error al consultar la API externa: {str(e)}. Verifica la URL, la clave API o los créditos."
         except requests.exceptions.RequestException as e:
@@ -132,7 +94,7 @@ class QuestionProcessor:
         sentiment = self.nlp_processor.analyze_sentiment(user_input)
         sentiment_prefix = "¡Entiendo que estás preocupado! " if sentiment["compound"] < -0.1 else ""
 
-        # Clasificar la intención
+        # Clasificar  intención
         intent = self.nlp_processor.classify_intent(user_input, self.intent_labels)
         print(f"Intención clasificada para '{user_input}': {intent}")
 
@@ -258,7 +220,7 @@ class QuestionProcessor:
                             return sentiment_prefix + q["answer_template"].format(city=target_city, recommendation=recommendation)
                         return sentiment_prefix + "No obtuve datos climáticos para riego."
 
-        # Pasar a API para preguntas no cubiertas o complejas mayores a 6 palabas
+        # Pasar a API para preguntas no cubiertas o complejas mayores a 6 palabras
         words = user_input.split()
         if not matches or len(words) > 6:
             return sentiment_prefix + self.call_external_api(user_input)

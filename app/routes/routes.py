@@ -3,7 +3,7 @@ from ..chatbot import init_chatbot
 
 bp = Blueprint('main', __name__)
 
-# Inicializar el procesador de preguntas
+
 processor = init_chatbot()
 
 @bp.route('/')
@@ -27,7 +27,7 @@ def chat():
         # Procesar la pregunta
         response = processor.process_question(user_input, city, department)
         
-        # Añadir la pregunta del usuario y la respuesta de Agrobot al historial
+        # Añadir la pregunta  y la respuesta de Agrobot al historial
         session['chat_history'].append({"role": "user", "message": user_input})
         session['chat_history'].append({"role": "agrobot", "message": response})
         

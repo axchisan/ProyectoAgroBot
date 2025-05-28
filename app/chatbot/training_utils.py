@@ -65,7 +65,7 @@ def train_intent_model(training_data, output_dir="app/models/intent_classifier")
 
     # Definir los argumentos de entrenamiento
     training_args = TrainingArguments(
-        output_dir='./results',
+        output_dir='./results', #eto guarda checkpoints los cuales se puede eliminar luego de haber entrenado el modelo
         num_train_epochs=15,
         per_device_train_batch_size=4,
         per_device_eval_batch_size=4,
