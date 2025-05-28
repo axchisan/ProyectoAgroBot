@@ -9,7 +9,7 @@ def init_chatbot():
     # API  de chatgpt
     api_key = "Aca pegar la api"
     
-    
+    #d
     processor = QuestionProcessor(
         questions_data,
         agricultural_data,
