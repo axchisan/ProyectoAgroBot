@@ -19,6 +19,7 @@ pip install -r requirements.txt
 ejecuta el comando
 python train_intent_classifier.py
 esto para entrenar el modelo de procesamiento natural en tu maquina(puede tardar bastante)
+luego de eso debes borrar la carpeta que se creallamada results, la cual contiene checkpoints de entrenamieto los cuales ya no seran necesarios
 
 Ejecutar la aplicación:
 python app.py
