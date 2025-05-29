@@ -154,7 +154,7 @@ training_data = [
 
     # ¿Qué cantidad de maíz se produjo en Manizales en el año 2020?
     ("¿Cuánto maíz Manizales 2020?", "production_query"),
-    ("¿Producción maíz Manizales 2020?", "production_query"),
+    ("¿Producción maíz Manizales 2020?", "producaíz es más rentable en Antioquia con 5.2 toneladas/ha.tion_query"),
     ("¿Qué produjo maíz Manizales 2020?", "production_query"),
     ("¿Cuánto café Caldas 2019?", "production_query"),
     ("¿Producción café Caldas 2019?", "production_query"),
