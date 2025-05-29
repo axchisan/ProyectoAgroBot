@@ -1,41 +1,46 @@
 from difflib import get_close_matches
-from typing import Dict
-import pandas as pd  # type: ignore
-import requests  # type: ignore
+from typing import Dict, Optional
+import pandas as pd # type: ignore
+import requests # type: ignore
 import re
 from .weather_api import get_weather, get_weather_for_sowing
 from .location_handler import (extract_location, recommend_crop_by_location, 
                               get_production_data, get_crop_profitability, 
                               get_department_with_min_production, get_department_with_max_production)
 from .nlp_processor import NLPProcessor
+from .dataset_processor import DatasetProcessor
 
-# Este archivo es el núcleo del procesamiento de preguntas
-#difflib compara similitudes de texto para encontrar coincidencias cercanas.
-#pandas maneja datos agrícolas y de departamentos.
-# requests realiza solicitudes a APIs externas 
-#'re' se usa para normalizar texto eliminando puntuación.
+# Este archivo es el núcleo del procesamiento de preguntas en Agrobot.
+# - `difflib` compara similitudes de texto para encontrar coincidencias cercanas.
+# - `pandas` maneja datos agrícolas y de departamentos.
+# - `requests` realiza solicitudes a APIs externas (e.g., OpenAI, clima).
+# - `re` se usa para normalizar texto eliminando puntuación.
 
 class QuestionProcessor:
-    def __init__(self, questions_data: Dict, agricultural_data: pd.DataFrame, department_data: pd.DataFrame, api_key: str = None, api_type: str = "openai"):
-        # Icializa el procesador con datos y configuración de API.
-        # questions_data: Diccionario con preguntas y respuestas.
-        # agricultural_data: DataFrame con datos de cultivos.
-        # department_data: DataFrame con datos de departamentos.
-        # api_key: Clave para la API de OpenAI; si no está, retorna un mensaje de error.
-        # api_type: Define el proveedor de la API (solo "openai" soportado aquí).
-        # nlp_processor: Instancia para análisis de texto.
+    def __init__(self, questions_data: Dict, agricultural_data: pd.DataFrame, department_data: pd.DataFrame, dataset_processor: DatasetProcessor, api_key: str = None, api_type: str = "openai"):
+        # Inicializa el procesador con datos y configuración de API.
+        # - `questions_data`: Diccionario con preguntas y respuestas.
+        # - `agricultural_data`: DataFrame con datos de cultivos.
+        # - `department_data`: DataFrame con datos de departamentos.
+        # - `dataset_processor`: Instancia para manejar datasets dinámicos.
+        # - `api_key`: Clave para la API de OpenAI; si no está, retorna un mensaje de error.
+        # - `api_type`: Define el proveedor de la API (solo "openai" soportado aquí).
+        # - `nlp_processor`: Instancia para análisis de texto.
         self.questions_data = questions_data
         self.agricultural_data = agricultural_data
         self.department_data = department_data
+        self.dataset_processor = dataset_processor
         self.nlp_processor = NLPProcessor()
         self.api_key = api_key
         self.api_type = api_type.lower()
         self.intent_labels = [
             "theoretical", "weather", "weather_forecast", "weather_sowing_advice", "current_location",
             "recommendation", "location_based_recommendation", "crop_profitability", 
-            "crop_production", "crop_timing", "irrigation_advice"
+            "crop_production", "crop_timing", "irrigation_advice",
+            # Nuevas intenciones para preguntas dinámicas
+            "least_favorable_department", "recommended_crops", "production_query"
         ]
-        # Prompt inicial para darle el contxto a la IA sobre el rol del chatbot.
+        # Prompt inicial que guía a la API de OpenAI para generar respuestas contextuales.
         self.initial_prompt = (
             "Eres un complemento para el desarrollo de Agrobot, un chatbot colombiano diseñado para ayudar a pequeños agricultores. "
             "Tu rol es resolver preguntas que Agrobot no puede responder, ofreciendo conceptos, consejos y recomendaciones sobre cultivos, "
@@ -53,13 +58,14 @@ class QuestionProcessor:
         )
 
     def normalize_text(self, text: str) -> str:
-        # normaliza el texto eliminando puntuación y convirtiéndolo a minúsculas 
+        # Normaliza el texto eliminando puntuación y convirtiéndolo a minúsculas para procesarlo uniformemente.
         text = text.lower().strip()
         text = re.sub(r'[¿¡!?,.;]', '', text)
         return text
 
     def extract_crop(self, user_input: str) -> str:
         # Extrae el nombre de un cultivo del texto del usuario de una lista predefinida.
+        # Se puede expandir esta lista para incluir más cultivos según los datasets.
         crops = ["maíz", "papa", "café", "tomate", "arroz", "guayaba", "plátano", "cacao", "yuca", "caña de azúcar", "mora", "piña"]
         user_input = user_input.lower()
         for crop in crops:
@@ -67,10 +73,17 @@ class QuestionProcessor:
                 return crop
         return None
 
+    def extract_year(self, user_input: str) -> Optional[int]:
+        # Extrae un año del texto del usuario usando expresiones regulares.
+        match = re.search(r'\b(20\d{2})\b', user_input)
+        if match:
+            return int(match.group(0))
+        return None
+
     def call_external_api(self, user_input: str) -> str:
-        # Llamado a la API de OpenAI para procesar preguntas complejas o no cubiertas por las reglas internas.
-        # Usa requests` para enviar un payload con el prompt y el texto del usuario.
-        # Configuramos el modelo gpt-4o-mini con max_tokens=300 para limitar a 300 palabras.
+        # Llama a la API de OpenAI para procesar preguntas complejas o no cubiertas por las reglas internas.
+        # Usa `requests` para enviar un payload con el prompt y el texto del usuario.
+        # Configura el modelo `gpt-4o-mini` con `max_tokens=300` para limitar a 300 palabras.
         if not self.api_key and self.api_type == "openai":
             return "No tengo acceso a una API externa. Configura una clave API para respuestas avanzadas."
         full_prompt = f"{self.initial_prompt}\nPregunta del usuario: {user_input}"
@@ -96,8 +109,8 @@ class QuestionProcessor:
                 response.raise_for_status()
                 raw_response = response.json()["choices"][0]["message"]["content"].strip()
                 # Corrección de tipeos (elimina letras duplicadas y espacios excesivos).
-                raw_response = re.sub(r'\b(\w+)(\w)\2+\b', r'\1\2', raw_response)  #
-                raw_response = re.sub(r'\s+', ' ', raw_response)  
+                raw_response = re.sub(r'\b(\w+)(\w)\2+\b', r'\1\2', raw_response)
+                raw_response = re.sub(r'\s+', ' ', raw_response)
                 return raw_response
             else:
                 return "Tipo de API no soportado. Usa 'openai'."
@@ -109,9 +122,9 @@ class QuestionProcessor:
             return f"Error al procesar la respuesta de la API: {str(e)}. Revisa el formato de la respuesta."
 
     def process_question(self, user_input: str, city: str = "Bogotá", department: str = "Cundinamarca") -> str:
-        # Procesar la pregunta del usuario, clasificando su intención y generando una respuesta.
-        #Usa nlp_processor para analizar sentimiento e intención.
-        #Maneja casos teóricos y dinámicos  con datos locales o la API.
+        # Procesa la pregunta del usuario, clasificando su intención y generando una respuesta.
+        # Usa `nlp_processor` para analizar sentimiento e intención.
+        # Maneja casos teóricos y dinámicos (clima, cultivos, datasets) con datos locales o la API.
         user_input_normalized = self.normalize_text(user_input)
         sentiment = self.nlp_processor.analyze_sentiment(user_input)
         sentiment_prefix = "¡Entiendo que estás preocupado! " if sentiment["compound"] < -0.1 else ""
@@ -120,7 +133,7 @@ class QuestionProcessor:
         intent = self.nlp_processor.classify_intent(user_input, self.intent_labels)
         print(f"Intención clasificada para '{user_input}': {intent}")
 
-        # Procesar preguntas teóricas ..
+        # Procesar preguntas teóricas (respuestas predefinidas).
         if intent == "theoretical":
             questions = [self.normalize_text(q["question"]) for q in self.questions_data["theoretical"]]
             matches = get_close_matches(user_input_normalized, questions, n=1, cutoff=0.6)
@@ -242,7 +255,45 @@ class QuestionProcessor:
                             return sentiment_prefix + q["answer_template"].format(city=target_city, recommendation=recommendation)
                         return sentiment_prefix + "No obtuve datos climáticos para riego."
 
-        # Si no hay coincidencias o la pregunta es compleja mss de 6 palabras se usa la Api.
+        #  intenciones para preguntas dinámicas basadas en datasets
+        if intent == "least_favorable_department":
+            crop = self.extract_crop(user_input)
+            if crop:
+                result = self.dataset_processor.get_least_favorable_department(crop)
+                if result:
+                    return sentiment_prefix + f"El departamento menos favorable para sembrar {crop} es {result['department']} con un rendimiento de {result['value']} ton/ha en {result['year']}."
+                return sentiment_prefix + f"No tengo datos suficientes para determinar el departamento menos favorable para {crop}."
+            return sentiment_prefix + "Especifica un cultivo (ej. 'maíz')."
+
+        if intent == "recommended_crops":
+            location = extract_location(user_input, self.department_data)
+            if location and location.get("department"):
+                recommendations = self.dataset_processor.get_recommended_crops(location["department"])
+                if recommendations:
+                    response = sentiment_prefix + f"En {location['department']}, te recomiendo los siguientes cultivos:\n"
+                    for rec in recommendations:
+                        response += f"- {rec['crop']} con un rendimiento de {rec['yield']} ton/ha (año {rec['year']})\n"
+                    return response
+                return sentiment_prefix + f"No tengo datos suficientes para recomendar cultivos en {location['department']}."
+            return sentiment_prefix + "Especifica tu departamento (ej. 'Santander')."
+
+        if intent == "production_query":
+            crop = self.extract_crop(user_input)
+            year = self.extract_year(user_input)
+            location = extract_location(user_input, self.department_data)
+            if crop and year and location:
+                # Primero intenta buscar como municipio
+                result = self.dataset_processor.get_production_by_location(crop, location["city"] if location["city"] else location["department"], year, location_type="municipality")
+                if result:
+                    return sentiment_prefix + f"En {result['location']} ({result['location_type']}), se produjeron {result['production_ton']} toneladas de {result['crop']} en {result['year']}."
+                # Si no encuentra como municipio, busca como departamento
+                result = self.dataset_processor.get_production_by_location(crop, location["department"], year, location_type="department")
+                if result:
+                    return sentiment_prefix + f"En {result['location']} ({result['location_type']}), se produjeron {result['production_ton']} toneladas de {result['crop']} en {result['year']}."
+                return sentiment_prefix + f"No tengo datos de producción para {crop} en esa ubicación y año."
+            return sentiment_prefix + "Especifica el cultivo, la ubicación y el año (ej. 'maíz en Manizales en 2020')."
+
+        # Si no hay coincidencias o la pregunta es compleja (>6 palabras), usa la API.
         words = user_input.split()
         if not matches or len(words) > 6:
             return sentiment_prefix + self.call_external_api(user_input)

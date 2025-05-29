@@ -1,9 +1,8 @@
 import json
 import pandas as pd # type: ignore
+import os
 from typing import Dict
-# Este archivo se encarga de cargar datos desde archivos externos para usarlos en Agrobot.
-# json maneja archivos JSON,  para estructurar preguntas y respuestas.
-# pandas es la librería  para manipular datos tabulares (CSV), optimizando el análisis de datos agrícolas.
+
 
 def load_questions(file_path: str) -> Dict:
     # Carga un archivo JSON que contiene preguntas predefinidas (teóricas y dinámicas) con sus respuestas o plantillas.
@@ -16,8 +15,7 @@ def load_questions(file_path: str) -> Dict:
         return {"theoretical": [], "dynamic": []}
 
 def load_agricultural_data(file_path: str) -> pd.DataFrame:
-    # Carga un de CSV con datos agrícolas, com o cultivos, meses de siembra y rendimientos.
-    
+    # Carga un CSV con datos agrícolas, como cultivos, meses de siembra y rendimientos.
     try:
         return pd.read_csv(file_path)
     except FileNotFoundError:
@@ -31,3 +29,19 @@ def load_department_data(file_path: str) -> pd.DataFrame:
     except FileNotFoundError:
         print(f"Error: No se encontró el archivo {file_path}")
         return pd.DataFrame()
+
+def load_dynamic_datasets(data_dir: str = "data/processed") -> Dict[str, pd.DataFrame]:
+    # Carga dinámicamente todos los CSV en las subcarpetas de data_dir.
+    # Retorna un diccionario con el nombre del archivo sin .csv como clave y el DataFrame como valor.
+    datasets = {}
+    for root, _, files in os.walk(data_dir):
+        for file in files:
+            if file.endswith(".csv"):
+                file_path = os.path.join(root, file)
+                key = file.replace(".csv", "").lower()
+                try:
+                    df = pd.read_csv(file_path)
+                    datasets[key] = df
+                except Exception as e:
+                    print(f"Error al cargar {file_path}: {e}")
+    return datasets

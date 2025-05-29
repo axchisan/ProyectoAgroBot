@@ -1,9 +1,9 @@
 import os
-import pandas as pd
+import pandas as pd # type: ignore
 
 # Directorios de entrada y salida
 input_folder = "./"  # Cambia esto a la ruta de tu carpeta con archivos XLSX
-output_folder = "./csv"  # Cambia esto a la ruta donde quieres guardar los CSVs
+output_folder = "./"  # Cambia esto a la ruta donde quieres guardar los CSVs
 
 # Crear la carpeta de salida si no existe
 if not os.path.exists(output_folder):

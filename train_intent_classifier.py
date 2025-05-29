@@ -28,7 +28,6 @@ training_data = [
     ("¿Qué son biofertilizantes?", "theoretical"), ("¿Q son biofertilizantes?", "theoretical"), ("¿Cómo usan biofertilizantes?", "theoretical"),
     ("¿Qué es pH suelo?", "theoretical"), ("¿Q es pH?", "theoretical"), ("¿Por qué importa pH suelo?", "theoretical"),
     ("¿Qué es erosión suelo?", "theoretical"), ("¿Q es erosion?", "theoretical"), ("¿Cómo evitar erosión suelo?", "theoretical"),
-    # Añadir más variaciones teóricas específicas
     ("¿Cómo siembro en invernadero?", "theoretical"), ("¿Q siembro invernadero?", "theoretical"), ("¿Técnicas siembra invernadero?", "theoretical"),
     ("¿Qué es siembra hidropónica?", "theoretical"), ("¿Q es hidropónica?", "theoretical"), ("¿Cómo funciona hidropónica?", "theoretical"),
     ("¿Qué son abonos orgánicos?", "theoretical"), ("¿Q son abonos orgánicos?", "theoretical"), ("¿Cómo hago abonos orgánicos?", "theoretical"),
@@ -120,6 +119,55 @@ training_data = [
     ("¿Buen momento regar Bogotá?", "irrigation_advice"), ("¿Q regar Bogotá?", "irrigation_advice"), ("¿Riego adecuado Bogotá?", "irrigation_advice"),
     ("¿Buen momento regar Medellín?", "irrigation_advice"), ("¿Q regar Medellín?", "irrigation_advice"), ("¿Riego adecuado Medellín?", "irrigation_advice"),
     ("¿Buen momento regar Cali?", "irrigation_advice"), ("¿Q regar Cali?", "irrigation_advice"), ("¿Riego adecuado Cali?", "irrigation_advice"),
+
+    # intenciones para preguntas dinámicas basadas en datasets
+    # ¿En qué departamentos es menos favorable sembrar maíz?
+    ("¿Dónde es menos favorable maíz?", "least_favorable_department"),
+    ("¿Qué departamento menos maíz?", "least_favorable_department"),
+    ("¿Menos favorable sembrar maíz?", "least_favorable_department"),
+    ("¿Dónde no sembrar maíz?", "least_favorable_department"),
+    ("¿Dónde es menos favorable papa?", "least_favorable_department"),
+    ("¿Qué departamento menos papa?", "least_favorable_department"),
+    ("¿Menos favorable sembrar café?", "least_favorable_department"),
+    ("¿Dónde no sembrar café?", "least_favorable_department"),
+    ("¿Dónde es menos favorable tomate?", "least_favorable_department"),
+    ("¿Qué departamento menos tomate?", "least_favorable_department"),
+    ("¿Menos favorable sembrar arroz?", "least_favorable_department"),
+    ("¿Dónde no sembrar arroz?", "least_favorable_department"),
+
+    # ¿Si soy de Santander qué cultivos son más recomendables?
+    ("¿Qué cultivos recomiendas Santander?", "recommended_crops"),
+    ("¿Mejores cultivos Santander?", "recommended_crops"),
+    ("¿Qué sembrar en Santander?", "recommended_crops"),
+    ("¿Qué cultivos recomiendas Antioquia?", "recommended_crops"),
+    ("¿Mejores cultivos Antioquia?", "recommended_crops"),
+    ("¿Qué sembrar en Antioquia?", "recommended_crops"),
+    ("¿Qué cultivos recomiendas Valle?", "recommended_crops"),
+    ("¿Mejores cultivos Valle?", "recommended_crops"),
+    ("¿Qué sembrar en Valle?", "recommended_crops"),
+    ("¿Qué cultivos recomiendas Tolima?", "recommended_crops"),
+    ("¿Mejores cultivos Tolima?", "recommended_crops"),
+    ("¿Qué sembrar en Tolima?", "recommended_crops"),
+    ("¿Qué cultivos recomiendas Huila?", "recommended_crops"),
+    ("¿Mejores cultivos Huila?", "recommended_crops"),
+    ("¿Qué sembrar en Huila?", "recommended_crops"),
+
+    # ¿Qué cantidad de maíz se produjo en Manizales en el año 2020?
+    ("¿Cuánto maíz Manizales 2020?", "production_query"),
+    ("¿Producción maíz Manizales 2020?", "production_query"),
+    ("¿Qué produjo maíz Manizales 2020?", "production_query"),
+    ("¿Cuánto café Caldas 2019?", "production_query"),
+    ("¿Producción café Caldas 2019?", "production_query"),
+    ("¿Qué produjo café Caldas 2019?", "production_query"),
+    ("¿Cuánto tomate Bogotá 2018?", "production_query"),
+    ("¿Producción tomate Bogotá 2018?", "production_query"),
+    ("¿Qué produjo tomate Bogotá 2018?", "production_query"),
+    ("¿Cuánto arroz Santander 2021?", "production_query"),
+    ("¿Producción arroz Santander 2021?", "production_query"),
+    ("¿Qué produjo arroz Santander 2021?", "production_query"),
+    ("¿Cuánto papa Boyacá 2022?", "production_query"),
+    ("¿Producción papa Boyacá 2022?", "production_query"),
+    ("¿Qué produjo papa Boyacá 2022?", "production_query"),
 ]
 
 if __name__ == "__main__":

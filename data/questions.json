@@ -177,6 +177,21 @@
       "question": "¿Cómo siembro en invernadero?",
       "type": "theoretical",
       "answer_template": "Usa sustratos, mantén 20-30°C y ventila bien."
+    },
+    {
+      "question": "¿Dónde es menos favorable sembrar maíz?",
+      "type": "least_favorable_department",
+      "answer_template": "El departamento menos favorable para sembrar {crop} es {department} con un rendimiento de {value} ton/ha en {year}."
+    },
+    {
+      "question": "¿Qué cultivos recomiendas en Santander?",
+      "type": "recommended_crops",
+      "answer_template": "En {department}, te recomiendo los siguientes cultivos:\n{crop_list}"
+    },
+    {
+      "question": "¿Cuánto maíz se produjo en Manizales en 2020?",
+      "type": "production_query",
+      "answer_template": "En {location} ({location_type}), se produjeron {production_ton} toneladas de {crop} en {year}."
     }
   ]
 }
