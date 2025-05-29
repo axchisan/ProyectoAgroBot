@@ -3,8 +3,8 @@
 
 ![Python](https://img.shields.io/badge/Python-3.11.2-blue)
 ![Anaconda](https://img.shields.io/badge/Anaconda-24.9.2+-yellow)
-![Flask](https://img.shields.io/badge/Flask-2.0.0+-green)
-![License](https://img.shields.io/badge/License-MIT-brightgreen)
+![Flask](https://img.shields.io/badge/Flask-3.1.1+-green)
+
 
 **Agrobot** es un chatbot basado en inteligencia artificial diseñado para apoyar a pequeños agricultores en la toma de decisiones agrícolas. Ofrece recomendaciones personalizadas sobre siembra, manejo de plagas, uso de químicos y planificación de cultivos según las condiciones climáticas. 🚜
 
