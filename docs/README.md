@@ -23,7 +23,6 @@ Este proyecto está desarrollado con Python, Flask y herramientas de procesamien
 - [Estructura del Proyecto](#estructura-del-proyecto)
 - [Uso](#uso)
 - [Contribuir](#contribuir)
-- [Licencia](#licencia)
 
 ## Características
 
