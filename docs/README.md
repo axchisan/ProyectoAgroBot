@@ -1,10 +1,8 @@
-Below is the improved README for the **Agrobot** project, formatted as a single markdown artifact for easy copying. I've maintained all the enhancements from the previous response, ensuring clarity, professionalism, and adherence to GitHub README best practices. The content is wrapped in the required `<xaiArtifact>` tag with a unique UUID, proper title, and content type.
-
 
 # Agrobot - Chatbot Agrícola 🌱
 
 ![Python](https://img.shields.io/badge/Python-3.11.2-blue)
-![Anaconda](https://img.shields.io/badge/Anaconda-23.7.4+-yellow)
+![Anaconda](https://img.shields.io/badge/Anaconda-24.9.2+-yellow)
 ![Flask](https://img.shields.io/badge/Flask-2.0.0+-green)
 ![License](https://img.shields.io/badge/License-MIT-brightgreen)
 
@@ -37,8 +35,8 @@ Este proyecto está desarrollado con Python, Flask y herramientas de procesamien
 ## Requisitos
 
 - Sistema operativo: Windows (64 bits recomendado), macOS o Linux.
-- Anaconda (versión 23.7.4 o superior).
-- Python 3.11.2.
+- Anaconda (versión 24.9.2 o superior).
+- Python 3.11.2
 - Conexión a internet (para descargar dependencias y Anaconda).
 - Navegador web moderno (para acceder a la aplicación).
 
@@ -173,11 +171,3 @@ agrobot/
 4. Sube los cambios a tu fork (`git push origin feature/nueva-funcionalidad`).
 5. Abre un Pull Request en este repositorio.
 
-Por favor, revisa el [Código de Conducta](CODE_OF_CONDUCT.md) y asegúrate de que tu código sigue las convenciones del proyecto.
-
-## Licencia
-
-Este proyecto está licenciado bajo la [Licencia MIT](LICENSE). Consulta el archivo `LICENSE` para más detalles.
-
-
-You can copy the entire content within the `<xaiArtifact>` tag and paste it into your `README.md` file on GitHub. If you need additional sections (e.g., troubleshooting, example queries, or a demo link), or if you want to tweak anything (e.g., add a logo, change the license, or include specific dataset details), let me know!
