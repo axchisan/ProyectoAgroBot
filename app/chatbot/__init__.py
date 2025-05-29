@@ -14,7 +14,7 @@ def init_chatbot():
     dynamic_datasets = load_dynamic_datasets("data/processed")
     
     # Configura la API de OpenAI 
-    api_key = "aca va la api"
+    api_key = "Api"
     
     # Inicializa el procesador de datasets con los datos dinámicos cargados.
     dataset_processor = DatasetProcessor()
