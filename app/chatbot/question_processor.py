@@ -66,7 +66,7 @@ class QuestionProcessor:
     def extract_crop(self, user_input: str) -> str:
         # Extrae el nombre de un cultivo del texto del usuario de una lista predefinida.
         # Se puede expandir esta lista para incluir más cultivos según los datasets.
-        crops = ["maíz", "papa", "café", "tomate", "arroz", "guayaba", "plátano", "cacao", "yuca", "caña de azúcar", "mora", "piña"]
+        crops = ["maíz", "maiz", "papa", "café", "cafe", "tomate", "arroz", "guayaba", "plátano", "platano", "cacao", "yuca", "caña de azúcar", "caña de azucar", "mora", "piña"]
         user_input = user_input.lower()
         for crop in crops:
             if crop in user_input:
