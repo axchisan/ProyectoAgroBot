@@ -32,6 +32,16 @@ training_data = [
     ("¿Qué es siembra hidropónica?", "theoretical"), ("¿Q es hidropónica?", "theoretical"), ("¿Cómo funciona hidropónica?", "theoretical"),
     ("¿Qué son abonos orgánicos?", "theoretical"), ("¿Q son abonos orgánicos?", "theoretical"), ("¿Cómo hago abonos orgánicos?", "theoretical"),
     ("¿Qué es compostaje?", "theoretical"), ("¿Q es compostaje?", "theoretical"), ("¿Beneficios compostaje?", "theoretical"),
+    ("¿Por qué es importante la agroecología para pequeños productores?", "theoretical"),
+    ("¿Qué diferencia hay entre agricultura sostenible y agroecología?", "theoretical"),
+    ("¿Conviene más sembrar maíz o arroz en Santander?", "crop_profitability"),
+    ("¿Qué pasaría si no uso rotación de cultivos?", "theoretical"),
+    ("¿Por qué recomiendas el cultivo de café en Antioquia?", "recommendation"),
+    ("¿Qué ventajas tiene la permacultura sobre agricultura convencional?", "theoretical"),
+    ("¿Puedo mezclar biofertilizantes y abonos orgánicos?", "theoretical"),
+   ("¿Qué impacto tiene el pH del suelo en el rendimiento del tomate?", "theoretical"),
+   ("¿Se puede hacer agricultura urbana en espacios pequeños?", "theoretical"),
+   ("¿Cómo afecta el clima lluvioso a la producción de papa?", "weather_sowing_advice"),
 
     # Preguntas de clima (muchas más ciudades y variaciones)
     ("¿Cuál es clima Bogotá?", "weather"), ("¿Q clima Bogotá?", "weather"), ("¿Cómo está tiempo Bogotá?", "weather"),
@@ -168,6 +178,184 @@ training_data = [
     ("¿Cuánto papa Boyacá 2022?", "production_query"),
     ("¿Producción papa Boyacá 2022?", "production_query"),
     ("¿Qué produjo papa Boyacá 2022?", "production_query"),
+    
+      # Razonamiento y comparación
+    ("¿Por qué es importante la agroecología para pequeños productores?", "theoretical"),
+    ("¿Qué diferencia hay entre agricultura sostenible y agroecología?", "theoretical"),
+    ("¿Conviene más sembrar maíz o arroz en Santander?", "crop_profitability"),
+    ("¿Qué pasaría si no uso rotación de cultivos?", "theoretical"),
+
+    # Errores comunes y preguntas mal escritas
+    ("¿Para qué sirve la agricutura prevision?", "theoretical"),
+    ("¿Qué es la hidoponica?", "theoretical"),
+    ("¿Cuál es el mejor cultvio para mi zona?", "recommendation"),
+
+    # Preguntas con contexto
+    ("¿Qué puedo sembrar en Boyacá durante temporada seca?", "location_based_recommendation"),
+    ("¿Qué cultivo me rinde más si sólo tengo 1 hectárea en Tolima?", "crop_profitability"),
+
+    # Multi-intención y dudas comparativas
+    ("¿Cuál es el clima ideal para sembrar cacao y en qué departamento es mejor?", "weather_sowing_advice"),
+    ("¿Es más rentable sembrar maíz o yuca en clima cálido?", "crop_profitability"),
+
+    # Dudas sobre datos
+    ("¿Tienes datos recientes de producción de papa en Boyacá?", "production_query"),
+    ("¿Los datos de producción de arroz en Santander están actualizados?", "production_query"),
+
+    # Sobre el bot
+    ("¿De dónde saca la información Agrobot?", "theoretical"),
+    ("¿Agrobot puede recomendarme un cultivo específico según mi suelo?", "theoretical"),
+
+      # ----------- PREGUNTAS TEÓRICAS Y DEFINICIONES -----------
+    ("¿Qué es Agrobot?", "theoretical"),
+    ("¿Q es Agrobot?", "theoretical"),
+    ("¿Que es Agrobot?", "theoretical"),
+    ("¿k es agrobot?", "theoretical"),
+    ("¿Qué significa Agrobot?", "theoretical"),
+    ("¿Agrobot q es?", "theoretical"),
+    ("¿Cómo funciona Agrobot?", "theoretical"),
+    ("¿Para qué sirve Agrobot?", "theoretical"),
+    ("¿Qué hace Agrobot?", "theoretical"),
+    ("¿Agrobot qué hace?", "theoretical"),
+
+    # Errores comunes de redacción, tildes y ortografía
+    ("¿Que es agroecologia?", "theoretical"),
+    ("¿Q es agroecologia?", "theoretical"),
+    ("¿Qué es agroecología?", "theoretical"),
+    ("¿Qué significa agroecología?", "theoretical"),
+    ("¿Cómo funciona agroecología?", "theoretical"),
+    ("¿Para qué sirve agroecología?", "theoretical"),
+    ("¿Para que sirve la agricutura prevision?", "theoretical"),
+    ("¿Qué es la hidoponica?", "theoretical"),
+    ("¿Qué es agricutura sostenible?", "theoretical"),
+    ("¿Q es agricutura sostenible?", "theoretical"),
+    ("¿Qué hace sostenible agricultura?", "theoretical"),
+    ("¿Beneficios agricultura sostenible?", "theoretical"),
+
+    # Comparación y razonamiento
+    ("¿Qué diferencia hay entre agricultura sostenible y agroecología?", "theoretical"),
+    ("¿Por qué es importante la agroecología para pequeños productores?", "theoretical"),
+    ("¿Qué ventajas tiene la permacultura sobre agricultura convencional?", "theoretical"),
+    ("¿Qué pasaría si no uso rotación de cultivos?", "theoretical"),
+    ("¿Por qué recomiendas el cultivo de café en Antioquia?", "recommendation"),
+    ("¿Puedo mezclar biofertilizantes y abonos orgánicos?", "theoretical"),
+    ("¿Qué impacto tiene el pH del suelo en el rendimiento del tomate?", "theoretical"),
+    ("¿Se puede hacer agricultura urbana en espacios pequeños?", "theoretical"),
+    ("¿Me conviene rotar papa con maíz o con tomate?", "theoretical"),
+    ("¿Qué hago si hay plagas resistentes a pesticidas orgánicos?", "theoretical"),
+
+    # ----------- CLIMA Y TIEMPO -----------
+    ("¿Cuál es clima Bogotá?", "weather"),
+    ("¿Q clima Bogotá?", "weather"),
+    ("¿Cómo está tiempo Bogotá?", "weather"),
+    ("¿Clima Medellín?", "weather"),
+    ("¿Está lloviendo Medellín?", "weather"),
+    ("¿Clima Cali?", "weather"),
+    ("¿Tiempo hoy Cali?", "weather"),
+    ("¿Soleado Barranquilla?", "weather"),
+    ("¿Lluvia Cartagena?", "weather"),
+    ("¿Clima mañana Bogotá?", "weather_forecast"),
+    ("¿Q hará Bogotá?", "weather_forecast"),
+    ("¿Clima fin semana Cali?", "weather_forecast"),
+    ("¿Bueno sembrar Bogotá?", "weather_sowing_advice"),
+    ("¿Adecuado sembrar Medellín?", "weather_sowing_advice"),
+    ("¿Bueno cultivar Cali?", "weather_sowing_advice"),
+
+    # Contexto y razonamiento climático
+    ("¿Qué puedo sembrar en Boyacá durante temporada seca?", "location_based_recommendation"),
+    ("¿Cuáles cultivos aguantan heladas en Cundinamarca?", "location_based_recommendation"),
+    ("¿Cómo afecta el clima lluvioso a la producción de papa?", "weather_sowing_advice"),
+    ("¿Cuál es el clima ideal para sembrar cacao y en qué departamento es mejor?", "weather_sowing_advice"),
+    ("¿Cuándo es mejor sembrar café si este año hay El Niño?", "crop_timing"),
+
+    # ----------- UBICACIÓN Y GEOLOCALIZACIÓN -----------
+    ("¿Dónde estoy?", "current_location"),
+    ("¿Q ciudad estoy?", "current_location"),
+    ("¿Mi ubicación?", "current_location"),
+    ("¿Estoy Antioquia?", "current_location"),
+    ("¿En Cundinamarca?", "current_location"),
+    ("¿Q departamento Valle?", "current_location"),
+    ("¿En Tolima?", "current_location"),
+    ("¿En Boyacá?", "current_location"),
+
+    # ----------- RECOMENDACIÓN DE CULTIVOS POR UBICACIÓN -----------
+    ("¿Q cultivos región?", "recommendation"),
+    ("¿Cultivos para zona?", "recommendation"),
+    ("¿Qué siembro región?", "recommendation"),
+    ("¿Qué puedo plantar si tengo poca lluvia?", "recommendation"),
+    ("¿Q debo sembrar si mi suelo es ácido?", "recommendation"),
+    ("¿Qué recomiendas para suelos arenosos en Huila?", "recommendation"),
+    ("¿Cultivo Antioquia?", "location_based_recommendation"),
+    ("¿Q siembro Antioquia?", "location_based_recommendation"),
+    ("¿Mejor cultivo Antioquia?", "location_based_recommendation"),
+    ("¿Qué cultivo me rinde más si sólo tengo 1 hectárea en Tolima?", "crop_profitability"),
+    ("¿Dónde puedo cultiva maiz en caldas?", "location_based_recommendation"),
+
+    # ----------- RENTABILIDAD Y COMPARATIVA -----------
+    ("¿Cultivo rentable Antioquia?", "crop_profitability"),
+    ("¿Mejor rentabilidad Cundinamarca?", "crop_profitability"),
+    ("¿Rentable maíz donde?", "crop_profitability"),
+    ("¿Rentable yuca donde?", "crop_profitability"),
+    ("¿Es más rentable sembrar maíz o yuca en clima cálido?", "crop_profitability"),
+    ("¿Conviene más sembrar maíz o arroz en Santander?", "crop_profitability"),
+    ("¿Qué cultivos rentables requieren poca agua?", "crop_profitability"),
+
+    # ----------- PRODUCCIÓN POR CULTIVO Y UBICACIÓN -----------
+    ("¿Donde producen menos maíz?", "crop_production"),
+    ("¿Producción tomate Cundinamarca?", "crop_production"),
+    ("¿Q más café?", "crop_production"),
+    ("¿Arroz en Antioquia?", "crop_production"),
+    ("¿Papa en Valle?", "crop_production"),
+    ("¿Caña en Boyacá?", "crop_production"),
+    ("¿Qué departamento produce más arroz y es rentable?", "crop_production"),
+
+    # ----------- TIEMPO Y CALENDARIO DE SIEMBRA -----------
+    ("¿Cuando siembro maíz?", "crop_timing"),
+    ("¿Q mes papa?", "crop_timing"),
+    ("¿Mejor arroz?", "crop_timing"),
+    ("¿Cundo siembro caña azúcar?", "crop_timing"),
+
+    # ----------- RIEGO Y OPTIMIZACIÓN -----------
+    ("¿Cmo optimizo riego?", "irrigation_advice"),
+    ("¿Q hago riego?", "irrigation_advice"),
+    ("¿Cmo regar con poca agua?", "irrigation_advice"),
+    ("¿Buen momento regar Bogotá?", "irrigation_advice"),
+    ("¿Siembro tomate en secano sirve?", "irrigation_advice"),
+    ("¿Conviene sembrar arroz si sólo tengo riego por goteo?", "irrigation_advice"),
+
+    # ----------- INTENCIONES DINÁMICAS / MULTI-INTENCIÓN -----------
+    ("¿Dónde es menos favorable maíz?", "least_favorable_department"),
+    ("¿Dónde no sembrar arroz?", "least_favorable_department"),
+    ("¿Qué departamento menos papa?", "least_favorable_department"),
+    ("¿Qué cultivos recomiendas Santander?", "recommended_crops"),
+    ("¿Qué cultivos recomiendas Valle?", "recommended_crops"),
+    ("¿Qué cultivos recomiendas Huila?", "recommended_crops"),
+
+    # ----------- PREGUNTAS DE PRODUCCIÓN ESPECÍFICA POR AÑO Y LOCALIDAD -----------
+    ("¿Cuánto maíz Manizales 2020?", "production_query"),
+    ("¿Producción café Caldas 2019?", "production_query"),
+    ("¿Qué produjo tomate Bogotá 2018?", "production_query"),
+    ("¿Cuánto arroz Santander 2021?", "production_query"),
+    ("¿Producción papa Boyacá 2022?", "production_query"),
+
+    # ----------- DUDAS SOBRE DATOS Y FUENTES -----------
+    ("¿Tienes datos recientes de producción de papa en Boyacá?", "production_query"),
+    ("¿Dónde encuentro cifras oficiales de cultivo de cacao?", "production_query"),
+    ("¿Los datos de producción de arroz en Santander están actualizados?", "production_query"),
+
+    # ----------- SOBRE EL BOT Y SU FUNCIONAMIENTO -----------
+    ("¿De dónde saca la información Agrobot?", "theoretical"),
+    ("¿Agrobot puede recomendarme un cultivo específico según mi suelo?", "theoretical"),
+    ("¿Cómo responde Agrobot si no sabe algo?", "theoretical"),
+    ("¿Agrobot puede equivocarse?", "theoretical"),
+
+    # ----------- PREGUNTAS MAL FORMULADAS O ABREVIADAS -----------
+    ("¿Cuál es el mejor cultvio para mi zona?", "recommendation"),
+    ("¿k cultivos para mi regn?", "recommendation"),
+    ("¿Q plantar ara?", "recommendation"),
+    ("¿Bueno sembar clima frio?", "weather_sowing_advice"),
+
+    
 ]
 
 if __name__ == "__main__":
