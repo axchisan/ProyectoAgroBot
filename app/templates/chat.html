@@ -11,16 +11,23 @@
     <div class="container">
         <h2 class="text-center mt-4 fw-bold">AGROBOT 🌱</h2>
         <div class="card chat-container">
-            <div class="chat-history">
+            <div class="chat-history" id="chatHistory">
                 {% for message in chat_history %}
                     <div class="chat-message {{ 'user-message' if message.role == 'user' else 'agrobot-message' }}">
-                        <p><strong>{{ 'Tú' if message.role == 'user' else 'Agrobot' }}:</strong> {{ message.message }}</p>
+                        <p><strong>{{ 'Tú' if message.role == 'user' else 'Agrobot' }}:</strong> 
+                            {{ message.message | replace('**', '') | replace('', '') | safe }}
+                        </p>
                     </div>
                 {% endfor %}
             </div>
-            <form method="POST">
-                <div class="mb-3">
-                    <input type="text" class="form-control rounded-pill" name="user_input" placeholder="Escribe tu pregunta..." required>
+            <form method="POST" id="chatForm">
+                <div class="mb-3 position-relative">
+                    <input type="text" class="form-control rounded-pill" name="user_input" id="userInput" placeholder="Escribe tu pregunta..." required>
+                    <div id="loading" class="position-absolute top-50 end-0 translate-middle-y d-none">
+                        <div class="spinner-border text-success" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-secondary-custom">Enviar</button>
@@ -47,10 +54,31 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script>
-        // Hacer que el chat siempre muestre el último mensaje
         document.addEventListener('DOMContentLoaded', () => {
-            const chatHistory = document.querySelector('.chat-history');
+            const chatHistory = document.querySelector('#chatHistory');
             chatHistory.scrollTop = chatHistory.scrollHeight;
+
+            const form = document.querySelector('#chatForm');
+            const loading = document.querySelector('#loading');
+            const userInput = document.querySelector('#userInput');
+
+            form.addEventListener('submit', (e) => {
+                loading.classList.remove('d-none');
+                // Simular retraso para respuestas instantáneas 
+                setTimeout(() => {
+                    loading.classList.add('d-none');
+                }, 500); 
+            });
+
+            // Detectar si la respuesta viene de API y ajustar tiempo de carga
+            const lastMessage = chatHistory.lastElementChild;
+            if (lastMessage && !lastMessage.textContent.includes('No pude obtener')) {
+                const delay = Math.random() * 2000 + 1000; // 1-3 segundos
+                loading.classList.remove('d-none');
+                setTimeout(() => {
+                    loading.classList.add('d-none');
+                }, delay);
+            }
         });
     </script>
 </body>

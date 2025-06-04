@@ -45,7 +45,7 @@ class QuestionProcessor:
             "Eres un complemento para el desarrollo de Agrobot, un chatbot colombiano diseñado para ayudar a pequeños agricultores. "
             "Tu rol es resolver preguntas que Agrobot no puede responder, ofreciendo conceptos, consejos y recomendaciones sobre cultivos, "
             "agricultura sostenible, manejo de plagas, y otros temas agrícolas relevantes para campesinos en Colombia. "
-            "Responde siempre en español, de manera clara, práctica y adaptada al contexto colombiano, usando un lenguaje sencillo y amigable, usando como máximo 300 palabras. "
+            "Responde siempre en español, de manera clara, práctica y adaptada al contexto colombiano, usando un lenguaje sencillo y limitándote estrictamente a 400 palabras como máximo sin exceder este límite bajo ninguna circunstancia. "
             "Si la pregunta es sobre técnicas agrícolas (como poda, siembra, recolección o manejo de plagas), proporciona pasos específicos, enumera las razones o beneficios, "
             "y asegura que la respuesta sea útil para un agricultor con conocimientos básicos. Cada respuesta debe tener al menos 150 palabras, "
             "evitando errores ortográficos o tipográficos. Ejemplo:\n"
@@ -101,10 +101,9 @@ class QuestionProcessor:
                         {"role": "system", "content": self.initial_prompt},
                         {"role": "user", "content": user_input}
                     ],
-                    "max_tokens": 300,  # Máximo de 300 palabras
+                    "max_tokens": 400,  # Máximo de 300 palabras
                     "temperature": 0.3  # Nivel de precisión
                 }
-                print(f"Intentando llamar a {url} con payload: {payload}")
                 response = requests.post(url, json=payload, headers=headers)
                 response.raise_for_status()
                 raw_response = response.json()["choices"][0]["message"]["content"].strip()
@@ -131,7 +130,6 @@ class QuestionProcessor:
 
         # Clasifica la intención de la pregunta usando el modelo NLP.
         intent = self.nlp_processor.classify_intent(user_input, self.intent_labels)
-        print(f"Intención clasificada para '{user_input}': {intent}")
 
         # Procesar preguntas teóricas (respuestas predefinidas).
         if intent == "theoretical":
