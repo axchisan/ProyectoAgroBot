@@ -45,7 +45,7 @@ h2 {
 .chat-container {
     display: flex;
     flex-direction: column;
-    height: 70vh; /* Ajusta la altura según necesites */
+    height: 70vh;
 }
 
 .chat-history {
@@ -67,6 +67,18 @@ h2 {
 
 .chat-message p {
     margin: 0;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+/* Estilo para listas dentro de mensajes */
+.chat-message ul, .chat-message ol {
+    margin: 5px 0;
+    padding-left: 20px;
+}
+
+.chat-message ul li, .chat-message ol li {
+    margin-bottom: 5px;
     font-size: 0.95rem;
     color: #333;
 }
@@ -185,6 +197,16 @@ h2 {
     padding: 10px 20px;
     border: 1px solid #ccc;
     font-size: 0.95rem;
+}
+
+/* Indicador de carga */
+#loading {
+    margin-right: 10px;
+}
+
+.spinner-border {
+    width: 1.5rem;
+    height: 1.5rem;
 }
 
 /* Animaciones */
