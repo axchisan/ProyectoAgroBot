@@ -4,20 +4,19 @@ import pandas as pd
 import requests
 import re
 from unidecode import unidecode
-from .weather_api import get_weather, get_weather_for_sowing
-from .location_handler import (extract_location, recommend_crop_by_location, 
-                              get_production_data, get_crop_profitability, 
-                              get_department_with_min_production, get_department_with_max_production)
+from .weather_api import get_weather, get_weather_for_sowing, get_weather_by_coords, get_weather_for_sowing_by_coords
+from .location_handler import extract_location, recommend_crop_by_location, get_production_data, get_crop_profitability, get_department_with_min_production, get_department_with_max_production, get_location_from_coords
 from .nlp_processor import NLPProcessor
 from .dataset_processor import DatasetProcessor
 
 class QuestionProcessor:
-    def __init__(self, questions_data: Dict, agricultural_data: pd.DataFrame, department_data: pd.DataFrame, dataset_processor: DatasetProcessor, api_key: str = None, api_type: str = "openai"):
+    def __init__(self, questions_data: Dict, agricultural_data: pd.DataFrame, department_data: pd.DataFrame, dataset_processor: DatasetProcessor, weather_api_key: str = None, api_key: str = None, api_type: str = "openai"):
         self.questions_data = questions_data
         self.agricultural_data = agricultural_data
         self.department_data = department_data
         self.dataset_processor = dataset_processor
         self.nlp_processor = NLPProcessor()
+        self.weather_api_key = weather_api_key
         self.api_key = api_key
         self.api_type = api_type.lower()
         self.intent_labels = [
@@ -29,7 +28,9 @@ class QuestionProcessor:
         self.context = {
             "department": None,
             "city": None,
-            "last_crop": None
+            "last_crop": None,
+            "lat": None,
+            "lon": None
         }
         self.initial_prompt = (
             "Eres un complemento para el desarrollo de Agrobot, un chatbot colombiano diseñado para ayudar a pequeños agricultores. "
@@ -73,7 +74,18 @@ class QuestionProcessor:
             return int(match.group(0))
         return None
 
-    def update_context(self, user_input: str):
+    def update_context(self, user_input: str, lat: float = None, lon: float = None):
+        # Actualizar coordenadas si se proporcionan
+        if lat is not None and lon is not None:
+            self.context["lat"] = lat
+            self.context["lon"] = lon
+            # Obtener ubicación a partir de coordenadas
+            location = get_location_from_coords(lat, lon)
+            if location:
+                self.context["city"] = location.get("city")
+                self.context["department"] = location.get("department")
+
+        # Extraer ubicación del texto del usuario
         location = extract_location(user_input, self.department_data)
         if location:
             if location.get("department"):
@@ -117,12 +129,12 @@ class QuestionProcessor:
         except KeyError as e:
             return f"Error al procesar la respuesta de la API: {str(e)}."
 
-    def process_question(self, user_input: str, city: str = "Bogotá", department: str = "Cundinamarca") -> str:
+    def process_question(self, user_input: str, city: str = "Bogotá", department: str = "Cundinamarca", lat: float = None, lon: float = None) -> str:
         user_input_normalized = self.normalize_text(user_input)
         sentiment = self.nlp_processor.analyze_sentiment(user_input)
         sentiment_prefix = "¡Entiendo que estás preocupado! " if sentiment["compound"] < -0.1 else ""
 
-        self.update_context(user_input)
+        self.update_context(user_input, lat, lon)
 
         target_dept = self.context["department"] if self.context["department"] else department
         target_city = self.context["city"] if self.context["city"] else city
@@ -142,8 +154,81 @@ class QuestionProcessor:
         if matches:
             for q in self.questions_data["dynamic"]:
                 if self.normalize_text(q["question"]) == matches[0]:
-                    if q["type"] in ["weather", "weather_sowing_advice", "weather_forecast", "current_location", "irrigation_advice"]:
-                        return sentiment_prefix + "Funcionalidad de clima y localización por implementar."
+                    if q["type"] == "weather":
+                        if self.context["lat"] is not None and self.context["lon"] is not None:
+                            weather_data = get_weather_by_coords(self.context["lat"], self.context["lon"], self.weather_api_key)
+                            if weather_data and weather_data.get("main"):
+                                return sentiment_prefix + q["answer_template"].format(
+                                    city=target_city or weather_data.get("name", "tu ubicación"),
+                                    description=weather_data["weather"][0]["description"],
+                                    temp=weather_data["main"]["temp"]
+                                )
+                        elif target_city:
+                            weather_data = get_weather(target_city, self.weather_api_key)
+                            if weather_data and weather_data.get("main"):
+                                return sentiment_prefix + q["answer_template"].format(
+                                    city=target_city,
+                                    description=weather_data["weather"][0]["description"],
+                                    temp=weather_data["main"]["temp"]
+                                )
+                        return sentiment_prefix + "No sé tu ubicación exacta. Dime tu ciudad o permite el acceso a tu ubicación."
+                    elif q["type"] == "weather_forecast":
+                        return sentiment_prefix + q["answer_template"]
+                    elif q["type"] == "current_location":
+                        if self.context["city"] or self.context["department"]:
+                            return sentiment_prefix + q["answer_template"].format(
+                                city=self.context["city"] or "una ciudad desconocida",
+                                department=self.context["department"] or "un departamento desconocido"
+                            )
+                        return sentiment_prefix + "No sé tu ubicación. Permite el acceso a tu ubicación o dime dónde estás."
+                    elif q["type"] == "weather_sowing_advice":
+                        if self.context["lat"] is not None and self.context["lon"] is not None:
+                            weather_data = get_weather_for_sowing_by_coords(self.context["lat"], self.context["lon"], self.weather_api_key)
+                            if weather_data:
+                                return sentiment_prefix + q["answer_template"].format(
+                                    city=weather_data["city"],
+                                    description=weather_data["description"],
+                                    temp=weather_data["temp"],
+                                    humidity=weather_data["humidity"],
+                                    recommendation=weather_data["recommendation"]
+                                )
+                        elif target_city:
+                            weather_data = get_weather_for_sowing(target_city, self.weather_api_key)
+                            if weather_data:
+                                return sentiment_prefix + q["answer_template"].format(
+                                    city=target_city,
+                                    description=weather_data["description"],
+                                    temp=weather_data["temp"],
+                                    humidity=weather_data["humidity"],
+                                    recommendation=weather_data["recommendation"]
+                                )
+                        return sentiment_prefix + "No sé tu ubicación exacta. Dime tu ciudad o permite el acceso a tu ubicación."
+                    elif q["type"] == "irrigation_advice":
+                        if self.context["lat"] is not None and self.context["lon"] is not None:
+                            weather_data = get_weather_for_sowing_by_coords(self.context["lat"], self.context["lon"], self.weather_api_key)
+                            if weather_data:
+                                irrigation_recommendation = (
+                                    "Evita regar en exceso, ya que la humedad es alta."
+                                    if weather_data["humidity"] > 70
+                                    else "Riega tus cultivos, ya que la humedad es baja."
+                                )
+                                return sentiment_prefix + q["answer_template"].format(
+                                    city=weather_data["city"],
+                                    recommendation=irrigation_recommendation
+                                )
+                        elif target_city:
+                            weather_data = get_weather_for_sowing(target_city, self.weather_api_key)
+                            if weather_data:
+                                irrigation_recommendation = (
+                                    "Evita regar en exceso, ya que la humedad es alta."
+                                    if weather_data["humidity"] > 70
+                                    else "Riega tus cultivos, ya que la humedad es baja."
+                                )
+                                return sentiment_prefix + q["answer_template"].format(
+                                    city=target_city,
+                                    recommendation=irrigation_recommendation
+                                )
+                        return sentiment_prefix + "No sé tu ubicación exacta. Dime tu ciudad o permite el acceso a tu ubicación."
                     elif q["type"] == "recommendation":
                         if target_dept:
                             recommendations = self.dataset_processor.get_recommended_crops(target_dept)

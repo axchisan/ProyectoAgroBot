@@ -1,31 +1,44 @@
 from .data_loader import load_questions, load_agricultural_data, load_department_data, load_dynamic_datasets
 from .question_processor import QuestionProcessor
 from .dataset_processor import DatasetProcessor
+import os
 
-def init_chatbot():
-    # Carga los datos iniciales necesarios para el funcionamiento de Agrobot.
-    # - `load_questions` lee un archivo JSON con preguntas teóricas y dinámicas.
-    # - `load_agricultural_data` carga un CSV con datos agrícolas (cultivos, meses de siembra, etc.).
-    # - `load_department_data` carga un CSV con datos de departamentos colombianos (producción, rendimiento).
-    # - `load_dynamic_datasets` carga todos los CSV de las subcarpetas de data/processed.
-    questions_data = load_questions("data/questions.json")
-    agricultural_data = load_agricultural_data("data/processed/crops_data.csv")
-    department_data = load_department_data("data/raw/departments_data.csv")
-    dynamic_datasets = load_dynamic_datasets("data/processed")
+def init_chatbot(weather_api_key=None, openai_api_key=None, questions_file="data/questions.json", agricultural_file="data/processed/Area_Produccion_y_Rendimiento_Nacional_por_Cultivo/Cafe.csv", department_file="data/raw/departments_data.csv", dynamic_data_dir="data/processed"):
+    """
+    Inicializa el chatbot con los datos necesarios.
     
-    # Configura la API de OpenAI 
-    api_key = "Api Key"  
+    Args:
+        weather_api_key (str, optional): Clave API para OpenWeatherMap.
+        openai_api_key (str, optional): Clave API para OpenAI.
+        questions_file (str): Ruta al archivo JSON de preguntas.
+        agricultural_file (str): Ruta al archivo CSV de datos agrícolas.
+        department_file (str): Ruta al archivo CSV de datos de departamentos.
+        dynamic_data_dir (str): Directorio para cargar datasets dinámicos.
     
-    # Inicializa el procesador de datasets con los datos dinámicos cargados.
-    dataset_processor = DatasetProcessor()
+    Returns:
+        QuestionProcessor: Instancia del procesador de preguntas.
+    """
+    # Cargar datos desde archivos
+    questions_data = load_questions(questions_file)
+    agricultural_data = load_agricultural_data(agricultural_file)
+    department_data = load_department_data(department_file)
+    dynamic_datasets = load_dynamic_datasets(dynamic_data_dir)
     
-    # Inicializa el procesador de preguntas con los datos cargados y la configuración de la API.
+    # Obtener claves API desde variables de entorno si no se proporcionan
+    weather_api_key = weather_api_key or os.getenv("OPENWEATHERMAP_API_KEY")
+    openai_api_key = openai_api_key or os.getenv("OPENAI_API_KEY", "Api Key")  # Valor por defecto temporal
+    
+    # Inicializar DatasetProcessor con los datos dinámicos cargados
+    dataset_processor = DatasetProcessor(dynamic_datasets)
+    
+    # Inicializar QuestionProcessor con las claves API y datos cargados
     processor = QuestionProcessor(
-        questions_data,
-        agricultural_data,
-        department_data,
-        dataset_processor,
-        api_key=api_key,
+        questions_data=questions_data,
+        agricultural_data=agricultural_data,
+        department_data=department_data,
+        dataset_processor=dataset_processor,
+        weather_api_key=weather_api_key,
+        api_key=openai_api_key,
         api_type="openai"
     )
     return processor

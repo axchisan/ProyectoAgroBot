@@ -49,7 +49,7 @@
                                 {{ message.message | replace('**', '') | replace('', '') | safe }}
                             </div>
                             <div class="message-time">
-                                {{ moment().format('HH:mm') if moment else '12:00' }}
+                                {{ message.timestamp if message.timestamp else '12:00' }}
                             </div>
                         </div>
                         {% if message.role == 'user' %}
@@ -82,7 +82,7 @@
                         <i class="fas fa-cloud-sun"></i>
                         <span class="d-none d-sm-inline">Clima</span>
                     </a>
-                    <a href="{{ url_for('main.recommendations') }}" class="chip">
+                    <a href="{{ url_for('main.recommend') }}" class="chip">
                         <i class="fas fa-seedling"></i>
                         <span class="d-none d-sm-inline">Siembra</span>
                     </a>
@@ -163,7 +163,6 @@
         }
 
         function exportChat() {
-            // Función para exportar el historial del chat
             const chatHistory = {{ chat_history | tojson }};
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(chatHistory, null, 2));
             const downloadAnchorNode = document.createElement('a');
@@ -173,13 +172,11 @@
             downloadAnchorNode.click();
             downloadAnchorNode.remove();
             
-            // Cerrar menú
             document.getElementById('menuOverlay').classList.remove('active');
             showNotification('Chat exportado exitosamente', 'success');
         }
 
         function openSettings() {
-            // Función para abrir configuraciones (puedes expandir esto)
             showNotification('Configuraciones en desarrollo', 'info');
             document.getElementById('menuOverlay').classList.remove('active');
         }
@@ -206,6 +203,45 @@
                     toggleMenu();
                 }
             });
+
+            // Solicitar ubicación al usuario
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        console.log(`Coordenadas obtenidas: lat=${lat}, lon=${lon}`);  // Log para depuración
+                        fetch('/update_location', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                lat: lat,
+                                lon: lon
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                console.log('Ubicación actualizada correctamente.');
+                                // En weather.html, ya tienes refreshWeather() aquí
+                            } else {
+                                console.error('Error al actualizar ubicación:', data.error);
+                            }
+                        })
+                        .catch(error => console.error('Error al enviar ubicación al servidor:', error));
+                    },
+                    function(error) {
+                        console.error('Error al obtener la geolocalización:', error.message);
+                        // Mostrar notificación al usuario
+                        alert('No se pudo obtener tu ubicación. Por favor, indica tu ciudad manualmente en el chat (por ejemplo, "Estoy en Bogotá").');
+                    }
+                );
+            } else {
+                console.log('La geolocalización no está soportada en este navegador.');
+                alert('Tu navegador no soporta geolocalización. Por favor, indica tu ciudad manualmente en el chat (por ejemplo, "Estoy en Bogotá").');
+            }
         });
     </script>
 </body>
