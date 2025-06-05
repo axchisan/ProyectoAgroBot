@@ -6,25 +6,239 @@
     <title>Recomendaciones de Siembra - Agrobot</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="container">
-        <h2 class="text-center mt-4 fw-bold">AGROBOT 🌱</h2>
-        <div class="card">
-            <h5>Recomendaciones para siembra</h5>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item"><img src="https://img.icons8.com/ios-filled/24/000000/corn.png" class="icon" alt="Fecha"> Mejor fecha de siembra</li>
-                <li class="list-group-item"><img src="https://img.icons8.com/ios-filled/24/000000/wheat.png" class="icon" alt="Fertilizante"> Tipo de fertilizante</li>
-                <li class="list-group-item"><img src="https://img.icons8.com/ios-filled/24/000000/sunflower.png" class="icon" alt="Rotación"> Rotación de cultivos</li>
-            </ul>
-            <div class="mt-3 d-flex gap-2">
-                <a href="#" class="btn btn-secondary-custom">Ver más detalles</a>
-                <a href="#" class="btn btn-outline-success rounded-pill">Aplicar recomendación</a>
+<body class="recommendations-page">
+    <div class="page-layout">
+        <div class="page-content">
+            <!-- Header -->
+            <div class="page-header">
+                <div class="header-left">
+                    <a href="{{ url_for('main.chat') }}" class="back-btn">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <h2>Recomendaciones de Siembra</h2>
+                </div>
+                <div class="header-actions">
+                    <button class="filter-btn" onclick="toggleFilters()">
+                        <i class="fas fa-filter"></i>
+                    </button>
+                </div>
             </div>
-            <a href="{{ url_for('main.index') }}" class="btn btn-outline-secondary rounded-pill mt-2">Volver al inicio</a>
+
+            <div class="recommendations-container">
+                <!-- Filters Section -->
+                <div class="filters-section" id="filtersSection">
+                    <div class="filter-chips">
+                        <button class="filter-chip active" data-filter="all">Todos</button>
+                        <button class="filter-chip" data-filter="vegetables">Vegetales</button>
+                        <button class="filter-chip" data-filter="fruits">Frutas</button>
+                        <button class="filter-chip" data-filter="grains">Granos</button>
+                    </div>
+                </div>
+
+                <!-- Current Season Banner -->
+                <div class="season-banner card-responsive">
+                    <div class="season-info">
+                        <i class="fas fa-calendar-alt"></i>
+                        <div>
+                            <h3>Temporada Actual: Primavera</h3>
+                            <p>Condiciones ideales para siembra de cultivos de temporada</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommended Crops -->
+                <div class="recommendations-grid grid-responsive grid-2">
+                    <div class="recommendation-card featured" data-category="vegetables">
+                        <div class="card-header">
+                            <div class="crop-icon">🌽</div>
+                            <div class="priority-badge">Alta prioridad</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Maíz</h3>
+                            <p class="crop-description">Ideal para siembra en esta época del año</p>
+                            <div class="crop-details">
+                                <div class="detail">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Mejor fecha: Marzo - Abril</span>
+                                </div>
+                                <div class="detail">
+                                    <i class="fas fa-thermometer-half"></i>
+                                    <span>Temp. ideal: 20-25°C</span>
+                                </div>
+                                <div class="detail">
+                                    <i class="fas fa-clock"></i>
+                                    <span>Cosecha: 90-120 días</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-outline-modern">Ver detalles</button>
+                            <button class="btn-primary-modern">Aplicar</button>
+                        </div>
+                    </div>
+
+                    <div class="recommendation-card" data-category="vegetables">
+                        <div class="card-header">
+                            <div class="crop-icon">🥕</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Zanahoria</h3>
+                            <p class="crop-description">Excelente opción para suelos bien drenados</p>
+                            <div class="crop-details">
+                                <div class="detail">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Todo el año</span>
+                                </div>
+                                <div class="detail">
+                                    <i class="fas fa-thermometer-half"></i>
+                                    <span>15-20°C</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-outline-modern">Ver detalles</button>
+                            <button class="btn-primary-modern">Aplicar</button>
+                        </div>
+                    </div>
+
+                    <div class="recommendation-card" data-category="fruits">
+                        <div class="card-header">
+                            <div class="crop-icon">🍅</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Tomate</h3>
+                            <p class="crop-description">Requiere cuidados especiales pero alta rentabilidad</p>
+                            <div class="crop-details">
+                                <div class="detail">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Febrero - Mayo</span>
+                                </div>
+                                <div class="detail">
+                                    <i class="fas fa-thermometer-half"></i>
+                                    <span>18-24°C</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-outline-modern">Ver detalles</button>
+                            <button class="btn-primary-modern">Aplicar</button>
+                        </div>
+                    </div>
+
+                    <div class="recommendation-card" data-category="grains">
+                        <div class="card-header">
+                            <div class="crop-icon">🌾</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Trigo</h3>
+                            <p class="crop-description">Cultivo tradicional con buena demanda</p>
+                            <div class="crop-details">
+                                <div class="detail">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Abril - Junio</span>
+                                </div>
+                                <div class="detail">
+                                    <i class="fas fa-thermometer-half"></i>
+                                    <span>12-18°C</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-outline-modern">Ver detalles</button>
+                            <button class="btn-primary-modern">Aplicar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fertilizer Recommendations -->
+                <div class="fertilizer-section">
+                    <h3>Recomendaciones de Fertilizantes</h3>
+                    <div class="grid-responsive grid-2">
+                        <div class="card-responsive fertilizer-card">
+                            <div class="fertilizer-icon">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <div class="fertilizer-info">
+                                <h4>NPK 10-10-10</h4>
+                                <p>Fertilizante balanceado para uso general</p>
+                                <span class="application-rate">200g por m²</span>
+                            </div>
+                        </div>
+                        
+                        <div class="card-responsive fertilizer-card">
+                            <div class="fertilizer-icon">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <div class="fertilizer-info">
+                                <h4>Compost Orgánico</h4>
+                                <p>Mejora la estructura del suelo</p>
+                                <span class="application-rate">2-3 kg por m²</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Crop Rotation Guide -->
+                <div class="rotation-section">
+                    <h3>Guía de Rotación de Cultivos</h3>
+                    <div class="card-responsive">
+                        <div class="rotation-timeline">
+                            <div class="rotation-step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h4>Leguminosas</h4>
+                                    <p>Frijol, arveja (fijan nitrógeno)</p>
+                                </div>
+                            </div>
+                            <div class="rotation-arrow">→</div>
+                            <div class="rotation-step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h4>Hortalizas de hoja</h4>
+                                    <p>Lechuga, espinaca (aprovechan nitrógeno)</p>
+                                </div>
+                            </div>
+                            <div class="rotation-arrow">→</div>
+                            <div class="rotation-step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h4>Cultivos de raíz</h4>
+                                    <p>Zanahoria, rábano (mejoran suelo)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        function toggleFilters() {
+            const filtersSection = document.getElementById('filtersSection');
+            filtersSection.classList.toggle('active');
+        }
+        document.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                
+                const filter = chip.dataset.filter;
+                const cards = document.querySelectorAll('.recommendation-card');
+                
+                cards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

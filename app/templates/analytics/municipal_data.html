@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datos Municipales - Agrobot</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/municipal_data.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="analytics-page">
+    <div class="page-layout">
+        <div class="page-content">
+            <!-- Header -->
+            <div class="page-header">
+                <div class="header-left">
+                    <a href="{{ url_for('analytics.dashboard') }}" class="back-btn">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <h2>Datos Municipales por Departamento</h2>
+                </div>
+                <div class="header-actions">
+                    <button class="filter-btn" onclick="toggleFilters()">
+                        <i class="fas fa-filter"></i>
+                    </button>
+                    <button class="refresh-btn" onclick="location.reload()">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="analytics-container">
+                <!-- Filtros -->
+                <div class="filters-section card-responsive" id="filtersSection">
+                    <h4>Filtros de Búsqueda</h4>
+                    <form method="GET" class="filters-form">
+                        <div class="grid-responsive grid-3">
+                            <div class="filter-group">
+                                <label for="dataset">Departamento-Cultivo</label>
+                                <select name="dataset" id="dataset" class="form-select">
+                                    <option value="">Seleccionar dataset</option>
+                                    {% for dataset in municipal_datasets %}
+                                    <option value="{{ dataset }}" {% if dataset == selected_dataset %}selected{% endif %}>
+                                        {{ dataset.replace('-', ' - ').title() }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label for="year">Año</label>
+                                <select name="year" id="year" class="form-select">
+                                    <option value="">Todos los años</option>
+                                    {% for year in years_range.available_years %}
+                                    <option value="{{ year }}" {% if year|string == selected_year %}selected{% endif %}>
+                                        {{ year }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label for="municipality">Municipio (opcional)</label>
+                                <input type="text" name="municipality" id="municipality" class="form-control" 
+                                       placeholder="Nombre del municipio" value="{{ request.args.get('municipality', '') }}">
+                            </div>
+                        </div>
+                        
+                        <div class="filter-actions">
+                            <button type="submit" class="btn-primary-modern">
+                                <i class="fas fa-search"></i>
+                                Aplicar Filtros
+                            </button>
+                            <a href="{{ url_for('analytics.municipal_data') }}" class="btn-secondary-modern">
+                                <i class="fas fa-times"></i>
+                                Limpiar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
+                {% if not selected_dataset %}
+                <!-- Selección de Dataset -->
+                <div class="dataset-selection-section">
+                    <h3>Seleccione un Dataset para Visualizar</h3>
+                    <div class="grid-responsive grid-3">
+                        {% for dataset in municipal_datasets[:9] %}
+                        <a href="{{ url_for('analytics.municipal_data', dataset=dataset) }}" class="dataset-card card-responsive">
+                            <div class="dataset-icon">
+                                <i class="fas fa-map-marked-alt"></i>
+                            </div>
+                            <div class="dataset-info">
+                                <h4>{{ dataset.split('-')[0].title() }}</h4>
+                                <p>{{ dataset.split('-')[1].title() if '-' in dataset else 'Datos generales' }}</p>
+                            </div>
+                            <div class="dataset-action">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </a>
+                        {% endfor %}
+                        
+                        {% if municipal_datasets|length > 9 %}
+                        <div class="dataset-card card-responsive more-datasets">
+                            <div class="dataset-icon">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </div>
+                            <div class="dataset-info">
+                                <h4>Más Datasets</h4>
+                                <p>{{ municipal_datasets|length - 9 }} datasets adicionales</p>
+                            </div>
+                            <div class="dataset-action">
+                                <button class="btn-outline-modern btn-sm" onclick="showAllDatasets()">Ver todos</button>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Modal para todos los datasets -->
+                <div class="modal fade" id="allDatasetsModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Todos los Datasets Municipales</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                    <input type="text" class="form-control" id="datasetSearch" placeholder="Buscar dataset...">
+                                </div>
+                                <div class="list-group" id="datasetsList">
+                                    {% for dataset in municipal_datasets %}
+                                    <a href="{{ url_for('analytics.municipal_data', dataset=dataset) }}" class="list-group-item list-group-item-action dataset-item">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">{{ dataset.split('-')[0].title() }}</h6>
+                                            <small>{{ dataset.split('-')[1].title() if '-' in dataset else 'General' }}</small>
+                                        </div>
+                                    </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {% else %}
+                <!-- Estadísticas Resumidas -->
+                {% if summary_stats %}
+                <div class="summary-section">
+                    <h4>Resumen de Datos: {{ selected_dataset.replace('-', ' - ').title() }}</h4>
+                    <div class="grid-responsive grid-4">
+                        <div class="summary-card card-responsive">
+                            <div class="summary-icon">
+                                <i class="fas fa-list"></i>
+                            </div>
+                            <div class="summary-info">
+                                <h5>Total Registros</h5>
+                                <span class="summary-value">{{ "{:,}".format(summary_stats.total_records) }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="summary-card card-responsive">
+                            <div class="summary-icon">
+                                <i class="fas fa-city"></i>
+                            </div>
+                            <div class="summary-info">
+                                <h5>Municipios</h5>
+                                <span class="summary-value">{{ summary_stats.municipalities_count if summary_stats.municipalities_count else 'N/A' }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="summary-card card-responsive">
+                            <div class="summary-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="summary-info">
+                                <h5>Años</h5>
+                                <span class="summary-value">{{ summary_stats.years_covered|length }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="summary-card card-responsive">
+                            <div class="summary-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="summary-info">
+                                <h5>Producción Total</h5>
+                                <span class="summary-value">{{ "{:,.2f}".format(summary_stats.Produccion_ton_total) if summary_stats.Produccion_ton_total else 'N/A' }}</span>
+                                <span class="summary-unit">ton</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Gráficos -->
+                <div class="charts-section">
+                    <div class="grid-responsive grid-2">
+                        <div class="chart-container card-responsive">
+                            <h4>Top 10 Municipios por Producción</h4>
+                            <canvas id="municipalityChart"></canvas>
+                        </div>
+                        
+                        <div class="chart-container card-responsive">
+                            <h4>Rendimiento por Municipio</h4>
+                            <canvas id="yieldChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabla de Datos -->
+                {% if filtered_data %}
+                <div class="data-table-section">
+                    <div class="table-header">
+                        <h4>Datos Detallados</h4>
+                        <div class="table-actions">
+                            <button class="btn-outline-modern" onclick="exportData('csv')">
+                                <i class="fas fa-download"></i>
+                                Exportar CSV
+                            </button>
+                            <button class="btn-outline-modern" onclick="exportData('json')">
+                                <i class="fas fa-download"></i>
+                                Exportar JSON
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Año</th>
+                                    <th>Municipio</th>
+                                    <th>Área Sembrada</th>
+                                    <th>Área Cosechada</th>
+                                    <th>Producción (ton)</th>
+                                    <th>Rendimiento (ha/ton)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in filtered_data %}
+                                <tr>
+                                    <td>{{ row['Año'] }}</td>
+                                    <td>{{ row['Municipio'] }}</td>
+                                    <td>{{ "{:,.2f}".format(row['Area Sembrada']) if row['Area Sembrada'] else 'N/A' }}</td>
+                                    <td>{{ "{:,.2f}".format(row['Area Cosechada']) if row['Area Cosechada'] else 'N/A' }}</td>
+                                    <td>{{ "{:,.2f}".format(row['Produccion (ton)']) if row['Produccion (ton)'] else 'N/A' }}</td>
+                                    <td>{{ "{:.2f}".format(row['Rendimiento (ha/ton)']) if row['Rendimiento (ha/ton)'] else 'N/A' }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    {% if filtered_data|length >= 100 %}
+                    <div class="table-footer">
+                        <p class="text-muted">Mostrando los primeros 100 registros. Use filtros para refinar la búsqueda.</p>
+                    </div>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div class="no-data-section card-responsive">
+                    <div class="no-data-content">
+                        <i class="fas fa-search"></i>
+                        <h4>No se encontraron datos</h4>
+                        <p>Intenta ajustar los filtros para obtener resultados.</p>
+                    </div>
+                </div>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        // Configurar gráficos si hay datos
+        {% if filtered_data and selected_dataset %}
+        document.addEventListener('DOMContentLoaded', function() {
+            // Datos para gráfico de municipios
+            fetch('{{ url_for("analytics.api_chart_data") }}?category=municipal&chart_type=top_municipalities&dataset={{ selected_dataset }}{% if selected_year %}&year={{ selected_year }}{% endif %}')
+                .then(response => response.json())
+                .then(data => {
+                    const municipalityCtx = document.getElementById('municipalityChart').getContext('2d');
+                    new Chart(municipalityCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: data.labels,
+                            datasets: data.datasets
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Producción por Municipio'
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Producción (toneladas)'
+                                    }
+                                }
+                            }
+                        }
+                    });
+                });
+            
+            // Datos para gráfico de rendimiento
+            fetch('{{ url_for("analytics.api_chart_data") }}?category=municipal&chart_type=yield_comparison&dataset={{ selected_dataset }}{% if selected_year %}&year={{ selected_year }}{% endif %}')
+                .then(response => response.json())
+                .then(data => {
+                    const yieldCtx = document.getElementById('yieldChart').getContext('2d');
+                    new Chart(yieldCtx, {
+                        type: 'horizontalBar',
+                        data: {
+                            labels: data.labels,
+                            datasets: data.datasets
+                        },
+                        options: {
+                            indexAxis: 'y',
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Rendimiento por Municipio'
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Rendimiento (ha/ton)'
+                                    }
+                                }
+                            }
+                        }
+                    });
+                });
+        });
+        {% endif %}
+
+        function toggleFilters() {
+            const filtersSection = document.getElementById('filtersSection');
+            filtersSection.classList.toggle('active');
+        }
+
+        function exportData(format) {
+            const params = new URLSearchParams(window.location.search);
+            params.set('format', format);
+            
+            const exportUrl = `{{ url_for('analytics.export_data') }}?category=municipal&${params.toString()}`;
+            window.open(exportUrl, '_blank');
+        }
+
+        function showAllDatasets() {
+            const modal = new bootstrap.Modal(document.getElementById('allDatasetsModal'));
+            modal.show();
+        }
+
+        // Filtro de búsqueda para datasets
+        document.addEventListener('DOMContentLoaded', () => {
+            const datasetSearch = document.getElementById('datasetSearch');
+            if (datasetSearch) {
+                datasetSearch.addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase();
+                    const datasetItems = document.querySelectorAll('.dataset-item');
+                    
+                    datasetItems.forEach(item => {
+                        const text = item.textContent.toLowerCase();
+                        if (text.includes(searchTerm)) {
+                            item.style.display = '';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            }
+
+            // Inicializar filtros como activos si hay parámetros
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.toString()) {
+                document.getElementById('filtersSection').classList.add('active');
+            }
+        });
+    </script>
+
+</body>
+</html>

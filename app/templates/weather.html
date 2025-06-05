@@ -6,26 +6,181 @@
     <title>Consulta Climática - Agrobot</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="container">
-        <h2 class="text-center mt-4 fw-bold">AGROBOT 🌱</h2>
-        <div class="card">
-            <div class="chat-message">
-                <p><strong>Usuario:</strong> ¿Cuál es el clima local?</p>
+<body class="weather-page">
+    <div class="page-layout">
+        <div class="page-content">
+            <!-- Header -->
+            <div class="page-header">
+                <div class="header-left">
+                    <a href="{{ url_for('main.chat') }}" class="back-btn">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <h2>Consulta Climática</h2>
+                </div>
+                <div class="header-actions">
+                    <button class="refresh-btn" onclick="refreshWeather()">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
             </div>
-            <div class="chat-message bg-success text-white p-3 rounded">
-                <p><img src="https://img.icons8.com/ios-filled/24/ffffff/sun.png" class="icon" alt="Temperatura"> La temperatura actual es de 22°C.</p>
-                <p><img src="https://img.icons8.com/ios-filled/24/ffffff/humidity.png" class="icon" alt="Humedad"> La humedad es del 65%.</p>
-                <p><img src="https://img.icons8.com/ios-filled/24/ffffff/watering-can.png" class="icon" alt="Riego"> Hoy no se recomienda el riego.</p>
-            </div>
-            <div class="mt-3 d-flex gap-2">
-                <a href="#" class="btn btn-secondary-custom">Ver pronóstico completo</a>
-                <a href="{{ url_for('main.index') }}" class="btn btn-outline-secondary rounded-pill">Volver al inicio</a>
+
+            <div class="weather-container">
+                <!-- Current Weather Card -->
+                <div class="weather-grid grid-responsive">
+                    <div class="card-responsive current-weather">
+                        <div class="weather-header">
+                            <div class="location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Bogotá, Cundinamarca</span>
+                            </div>
+                            <div class="weather-icon">
+                                <i class="fas fa-sun"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="temperature">
+                            <span class="temp-value">22°</span>
+                            <span class="temp-unit">C</span>
+                        </div>
+                        
+                        <div class="weather-description">
+                            <p>Parcialmente nublado</p>
+                            <p class="feels-like">Sensación térmica: 24°C</p>
+                        </div>
+                    </div>
+
+                    <!-- Weather Details -->
+                    <div class="weather-details grid-responsive grid-2">
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <div class="detail-info">
+                                <span class="detail-label">Humedad</span>
+                                <span class="detail-value">65%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-wind"></i>
+                            </div>
+                            <div class="detail-info">
+                                <span class="detail-label">Viento</span>
+                                <span class="detail-value">12 km/h</span>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="detail-info">
+                                <span class="detail-label">Visibilidad</span>
+                                <span class="detail-value">10 km</span>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-thermometer-half"></i>
+                            </div>
+                            <div class="detail-info">
+                                <span class="detail-label">Presión</span>
+                                <span class="detail-value">1013 hPa</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Agricultural Recommendations -->
+                <div class="agro-recommendations">
+                    <h3>Recomendaciones Agrícolas</h3>
+                    <div class="grid-responsive grid-1">
+                        <div class="recommendation-card positive">
+                            <div class="rec-icon">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <div class="rec-content">
+                                <h4>Condiciones favorables para siembra</h4>
+                                <p>La humedad y temperatura actuales son ideales para cultivos de temporada.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="recommendation-card warning">
+                            <div class="rec-icon">
+                                <i class="fas fa-tint-slash"></i>
+                            </div>
+                            <div class="rec-content">
+                                <h4>Riego no recomendado</h4>
+                                <p>Los niveles de humedad son suficientes. Evita el riego por las próximas 24 horas.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7-Day Forecast -->
+                <div class="forecast-section">
+                    <h3>Pronóstico de 7 días</h3>
+                    <div class="card-responsive">
+                        <div class="forecast-list">
+                            <div class="forecast-item">
+                                <span class="day">Hoy</span>
+                                <i class="fas fa-sun weather-icon"></i>
+                                <span class="temp-range">22° / 15°</span>
+                            </div>
+                            <div class="forecast-item">
+                                <span class="day">Mañana</span>
+                                <i class="fas fa-cloud-sun weather-icon"></i>
+                                <span class="temp-range">20° / 13°</span>
+                            </div>
+                            <div class="forecast-item">
+                                <span class="day">Miércoles</span>
+                                <i class="fas fa-cloud-rain weather-icon"></i>
+                                <span class="temp-range">18° / 12°</span>
+                            </div>
+                            <div class="forecast-item">
+                                <span class="day">Jueves</span>
+                                <i class="fas fa-cloud weather-icon"></i>
+                                <span class="temp-range">19° / 11°</span>
+                            </div>
+                            <div class="forecast-item">
+                                <span class="day">Viernes</span>
+                                <i class="fas fa-sun weather-icon"></i>
+                                <span class="temp-range">23° / 14°</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="btn-secondary-modern">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Ver pronóstico completo</span>
+                    </button>
+                    <button class="btn-primary-modern">
+                        <i class="fas fa-bell"></i>
+                        <span>Configurar alertas</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        function refreshWeather() {
+            const refreshBtn = document.querySelector('.refresh-btn i');
+            refreshBtn.style.animation = 'spin 1s linear';
+            setTimeout(() => {
+                refreshBtn.style.animation = '';
+                // Aquí argregar la lógica para actualizar los datos del clima
+            }, 1000);
+        }
+    </script>
 </body>
 </html>
