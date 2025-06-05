@@ -3,7 +3,7 @@ import pandas as pd # type: ignore
 
 # Directorios de entrada y salida
 input_folder = "./"  # Cambia esto a la ruta de tu carpeta con archivos XLSX
-output_folder = "./csv"  # Cambia esto a la ruta donde quieres guardar los CSVs
+output_folder = "./"  # Cambia esto a la ruta donde quieres guardar los CSVs
 
 # Crear la carpeta de salida si no existe
 if not os.path.exists(output_folder):
@@ -19,8 +19,8 @@ for filename in os.listdir(input_folder):
         try:
             df = pd.read_excel(xlsx_path)
             
-            # Generar el nombre del archivo CSV (mismo nombre, pero con extensión .csv)
-            csv_filename = os.path.splitext(filename)[0] + ".csv"
+            # Generar el nombre del archivo CSV en minúsculas
+            csv_filename = os.path.splitext(filename)[0].lower() + ".csv"
             csv_path = os.path.join(output_folder, csv_filename)
             
             # Guardar como CSV

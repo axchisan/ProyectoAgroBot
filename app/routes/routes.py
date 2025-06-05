@@ -21,8 +21,8 @@ def chat():
     if request.method == 'POST':
         user_input = request.form.get('user_input')
         # Obtener la ciudad y el departamento de la sesión, o usar valores por defecto
-        city = session.get('city', 'Bogotá')
-        department = session.get('department', 'Cundinamarca')
+        city = session.get('city', 'Guavatá')
+        department = session.get('department', 'Santander')
         
         # Procesar la pregunta
         response = processor.process_question(user_input, city, department)
