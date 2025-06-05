@@ -1,16 +1,27 @@
 import pandas as pd
 import os
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Union
 from unidecode import unidecode
 
 class DatasetProcessor:
-    def __init__(self, data_dir: str = "data/processed"):
-        self.data_dir = data_dir
+    def __init__(self, datasets: Union[str, Dict[str, pd.DataFrame]] = "data/processed"):
+        """
+        Inicializa el procesador de datasets.
+
+        Args:
+            datasets: Puede ser una ruta (str) al directorio de datos o un diccionario con los datasets ya cargados.
+        """
         self.crop_mappings = {
             "maiz": "maíz", "cafe": "café", "platano": "plátano", "guayaba manzana": "guayaba",
             "guayaba pera": "guayaba", "cana azucarera": "caña de azúcar", "cana panelera": "caña de azúcar"
         }
-        self.datasets = self._load_all_datasets()
+        if isinstance(datasets, str):
+            self.data_dir = datasets
+            self.datasets = self._load_all_datasets()
+        elif isinstance(datasets, dict):
+            self.datasets = datasets
+        else:
+            raise TypeError("El argumento 'datasets' debe ser una cadena (ruta de directorio) o un diccionario de DataFrames.")
 
     def _normalize_name(self, name: str) -> str:
         # Normaliza nombres de cultivos y departamentos
@@ -18,6 +29,12 @@ class DatasetProcessor:
         return self.crop_mappings.get(name, name)
 
     def _load_all_datasets(self) -> Dict[str, pd.DataFrame]:
+        """
+        Carga todos los datasets desde el directorio especificado.
+
+        Returns:
+            Dict[str, pd.DataFrame]: Diccionario con los datasets cargados.
+        """
         datasets = {}
         for root, _, files in os.walk(self.data_dir):
             for file in files:

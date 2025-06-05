@@ -27,145 +27,137 @@
             </div>
 
             <div class="weather-container">
-                <!-- Current Weather Card -->
-                <div class="weather-grid grid-responsive">
-                    <div class="card-responsive current-weather">
-                        <div class="weather-header">
-                            <div class="location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Bogotá, Cundinamarca</span>
+                {% if weather_data.error %}
+                    <div class="alert alert-warning" role="alert">
+                        {{ weather_data.error }}
+                    </div>
+                {% else %}
+                    <!-- Current Weather Card -->
+                    <div class="weather-grid grid-responsive">
+                        <div class="card-responsive current-weather">
+                            <div class="weather-header">
+                                <div class="location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span id="location">{{ weather_data.city }}, {{ weather_data.department }}</span>
+                                </div>
+                                <div class="weather-icon">
+                                    <i id="current-weather-icon" class="fas {{ 'fa-sun' if weather_data.icon_code.endswith('d') else 'fa-moon' if weather_data.icon_code.endswith('n') else 'fa-cloud' }}"></i>
+                                </div>
                             </div>
-                            <div class="weather-icon">
-                                <i class="fas fa-sun"></i>
+                            
+                            <div class="temperature">
+                                <span class="temp-value" id="temperature">{{ weather_data.temperature }}°</span>
+                                <span class="temp-unit">C</span>
+                            </div>
+                            
+                            <div class="weather-description">
+                                <p id="description">{{ weather_data.description }}</p>
+                                <p class="feels-like" id="feels-like">Sensación térmica: {{ weather_data.feels_like }}°C</p>
                             </div>
                         </div>
-                        
-                        <div class="temperature">
-                            <span class="temp-value">22°</span>
-                            <span class="temp-unit">C</span>
-                        </div>
-                        
-                        <div class="weather-description">
-                            <p>Parcialmente nublado</p>
-                            <p class="feels-like">Sensación térmica: 24°C</p>
+
+                        <!-- Weather Details -->
+                        <div class="weather-details grid-responsive grid-2">
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-tint"></i>
+                                </div>
+                                <div class="detail-info">
+                                    <span class="detail-label">Humedad</span>
+                                    <span class="detail-value" id="humidity">{{ weather_data.humidity }}%</span>
+                                </div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-wind"></i>
+                                </div>
+                                <div class="detail-info">
+                                    <span class="detail-label">Viento</span>
+                                    <span class="detail-value" id="wind-speed">{{ weather_data.wind_speed }} km/h</span>
+                                </div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-eye"></i>
+                                </div>
+                                <div class="detail-info">
+                                    <span class="detail-label">Visibilidad</span>
+                                    <span class="detail-value" id="visibility">{{ weather_data.visibility }} km</span>
+                                </div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-thermometer-half"></i>
+                                </div>
+                                <div class="detail-info">
+                                    <span class="detail-label">Presión</span>
+                                    <span class="detail-value" id="pressure">{{ weather_data.pressure }} hPa</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Weather Details -->
-                    <div class="weather-details grid-responsive grid-2">
-                        <div class="detail-item">
-                            <div class="detail-icon">
-                                <i class="fas fa-tint"></i>
+                    <!-- Agricultural Recommendations -->
+                    <div class="agro-recommendations">
+                        <h3>Recomendaciones Agrícolas</h3>
+                        <div class="grid-responsive grid-1">
+                            <div class="recommendation-card {{ 'positive' if 'Es un buen momento' in weather_data.sowing_recommendation else 'warning' }}">
+                                <div class="rec-icon">
+                                    <i class="fas fa-seedling"></i>
+                                </div>
+                                <div class="rec-content">
+                                    <h4 id="sowing-recommendation-title">
+                                        {{ 'Condiciones favorables para siembra' if 'Es un buen momento' in weather_data.sowing_recommendation else 'Condiciones no ideales para siembra' }}
+                                    </h4>
+                                    <p id="sowing-recommendation">{{ weather_data.sowing_recommendation }}</p>
+                                </div>
                             </div>
-                            <div class="detail-info">
-                                <span class="detail-label">Humedad</span>
-                                <span class="detail-value">65%</span>
-                            </div>
-                        </div>
-                        
-                        <div class="detail-item">
-                            <div class="detail-icon">
-                                <i class="fas fa-wind"></i>
-                            </div>
-                            <div class="detail-info">
-                                <span class="detail-label">Viento</span>
-                                <span class="detail-value">12 km/h</span>
-                            </div>
-                        </div>
-                        
-                        <div class="detail-item">
-                            <div class="detail-icon">
-                                <i class="fas fa-eye"></i>
-                            </div>
-                            <div class="detail-info">
-                                <span class="detail-label">Visibilidad</span>
-                                <span class="detail-value">10 km</span>
-                            </div>
-                        </div>
-                        
-                        <div class="detail-item">
-                            <div class="detail-icon">
-                                <i class="fas fa-thermometer-half"></i>
-                            </div>
-                            <div class="detail-info">
-                                <span class="detail-label">Presión</span>
-                                <span class="detail-value">1013 hPa</span>
+                            
+                            <div class="recommendation-card {{ 'warning' if 'Evita regar' in weather_data.irrigation_recommendation else 'positive' }}">
+                                <div class="rec-icon">
+                                    <i class="fas {{ 'fa-tint-slash' if 'Evita regar' in weather_data.irrigation_recommendation else 'fa-tint' }}"></i>
+                                </div>
+                                <div class="rec-content">
+                                    <h4 id="irrigation-recommendation-title">
+                                        {{ 'Riego no recomendado' if 'Evita regar' in weather_data.irrigation_recommendation else 'Riego recomendado' }}
+                                    </h4>
+                                    <p id="irrigation-recommendation">{{ weather_data.irrigation_recommendation }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Agricultural Recommendations -->
-                <div class="agro-recommendations">
-                    <h3>Recomendaciones Agrícolas</h3>
-                    <div class="grid-responsive grid-1">
-                        <div class="recommendation-card positive">
-                            <div class="rec-icon">
-                                <i class="fas fa-seedling"></i>
-                            </div>
-                            <div class="rec-content">
-                                <h4>Condiciones favorables para siembra</h4>
-                                <p>La humedad y temperatura actuales son ideales para cultivos de temporada.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="recommendation-card warning">
-                            <div class="rec-icon">
-                                <i class="fas fa-tint-slash"></i>
-                            </div>
-                            <div class="rec-content">
-                                <h4>Riego no recomendado</h4>
-                                <p>Los niveles de humedad son suficientes. Evita el riego por las próximas 24 horas.</p>
+                    <!-- 7-Day Forecast -->
+                    <div class="forecast-section">
+                        <h3>Pronóstico de 7 días</h3>
+                        <div class="card-responsive">
+                            <div class="forecast-list">
+                                {% for forecast in forecast_data %}
+                                    <div class="forecast-item">
+                                        <span class="day">{{ forecast.day }}</span>
+                                        <i class="fas {{ 'fa-sun' if forecast.icon_code.endswith('d') else 'fa-moon' if forecast.icon_code.endswith('n') else 'fa-cloud' }} weather-icon"></i>
+                                        <span class="temp-range">{{ forecast.temp_max }}° / {{ forecast.temp_min }}°</span>
+                                    </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- 7-Day Forecast -->
-                <div class="forecast-section">
-                    <h3>Pronóstico de 7 días</h3>
-                    <div class="card-responsive">
-                        <div class="forecast-list">
-                            <div class="forecast-item">
-                                <span class="day">Hoy</span>
-                                <i class="fas fa-sun weather-icon"></i>
-                                <span class="temp-range">22° / 15°</span>
-                            </div>
-                            <div class="forecast-item">
-                                <span class="day">Mañana</span>
-                                <i class="fas fa-cloud-sun weather-icon"></i>
-                                <span class="temp-range">20° / 13°</span>
-                            </div>
-                            <div class="forecast-item">
-                                <span class="day">Miércoles</span>
-                                <i class="fas fa-cloud-rain weather-icon"></i>
-                                <span class="temp-range">18° / 12°</span>
-                            </div>
-                            <div class="forecast-item">
-                                <span class="day">Jueves</span>
-                                <i class="fas fa-cloud weather-icon"></i>
-                                <span class="temp-range">19° / 11°</span>
-                            </div>
-                            <div class="forecast-item">
-                                <span class="day">Viernes</span>
-                                <i class="fas fa-sun weather-icon"></i>
-                                <span class="temp-range">23° / 14°</span>
-                            </div>
-                        </div>
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button class="btn-secondary-modern" onclick="alert('Funcionalidad en desarrollo')">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Ver pronóstico completo</span>
+                        </button>
+                        <button class="btn-primary-modern" onclick="alert('Funcionalidad en desarrollo')">
+                            <i class="fas fa-bell"></i>
+                            <span>Configurar alertas</span>
+                        </button>
                     </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="action-buttons">
-                    <button class="btn-secondary-modern">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Ver pronóstico completo</span>
-                    </button>
-                    <button class="btn-primary-modern">
-                        <i class="fas fa-bell"></i>
-                        <span>Configurar alertas</span>
-                    </button>
-                </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -176,11 +168,115 @@
         function refreshWeather() {
             const refreshBtn = document.querySelector('.refresh-btn i');
             refreshBtn.style.animation = 'spin 1s linear';
-            setTimeout(() => {
-                refreshBtn.style.animation = '';
-                // Aquí argregar la lógica para actualizar los datos del clima
-            }, 1000);
+            
+            fetch('/refresh_weather')
+                .then(response => response.json())
+                .then(data => {
+                    refreshBtn.style.animation = '';
+                    if (data.success) {
+                        // Actualizar clima actual
+                        document.getElementById('location').textContent = `${data.weather.city}, ${data.weather.department}`;
+                        document.getElementById('temperature').textContent = `${data.weather.temperature}°`;
+                        document.getElementById('description').textContent = data.weather.description;
+                        document.getElementById('feels-like').textContent = `Sensación térmica: ${data.weather.feels_like}°C`;
+                        document.getElementById('humidity').textContent = `${data.weather.humidity}%`;
+                        document.getElementById('wind-speed').textContent = `${data.weather.wind_speed} km/h`;
+                        document.getElementById('visibility').textContent = `${data.weather.visibility} km`;
+                        document.getElementById('pressure').textContent = `${data.weather.pressure} hPa`;
+                        
+                        // Actualizar ícono del clima
+                        const currentIcon = document.getElementById('current-weather-icon');
+                        currentIcon.className = 'fas ' + (
+                            data.weather.icon_code.endsWith('d') ? 'fa-sun' :
+                            data.weather.icon_code.endsWith('n') ? 'fa-moon' : 'fa-cloud'
+                        );
+                        
+                        // Actualizar recomendaciones agrícolas
+                        const sowingRecommendationTitle = document.getElementById('sowing-recommendation-title');
+                        const sowingRecommendation = document.getElementById('sowing-recommendation');
+                        const sowingCard = sowingRecommendationTitle.parentElement.parentElement;
+                        sowingRecommendationTitle.textContent = data.weather.sowing_recommendation.includes('Es un buen momento') ?
+                            'Condiciones favorables para siembra' : 'Condiciones no ideales para siembra';
+                        sowingRecommendation.textContent = data.weather.sowing_recommendation;
+                        sowingCard.className = 'recommendation-card ' + (
+                            data.weather.sowing_recommendation.includes('Es un buen momento') ? 'positive' : 'warning'
+                        );
+                        
+                        const irrigationRecommendationTitle = document.getElementById('irrigation-recommendation-title');
+                        const irrigationRecommendation = document.getElementById('irrigation-recommendation');
+                        const irrigationCard = irrigationRecommendationTitle.parentElement.parentElement;
+                        const irrigationIcon = irrigationCard.querySelector('.rec-icon i');
+                        irrigationRecommendationTitle.textContent = data.weather.irrigation_recommendation.includes('Evita regar') ?
+                            'Riego no recomendado' : 'Riego recomendado';
+                        irrigationRecommendation.textContent = data.weather.irrigation_recommendation;
+                        irrigationCard.className = 'recommendation-card ' + (
+                            data.weather.irrigation_recommendation.includes('Evita regar') ? 'warning' : 'positive'
+                        );
+                        irrigationIcon.className = 'fas ' + (
+                            data.weather.irrigation_recommendation.includes('Evita regar') ? 'fa-tint-slash' : 'fa-tint'
+                        );
+                        
+                        // Actualizar pronóstico
+                        const forecastList = document.querySelector('.forecast-list');
+                        forecastList.innerHTML = '';
+                        data.forecast.forEach(forecast => {
+                            const forecastItem = document.createElement('div');
+                            forecastItem.className = 'forecast-item';
+                            forecastItem.innerHTML = `
+                                <span class="day">${forecast.day}</span>
+                                <i class="fas ${
+                                    forecast.icon_code.endsWith('d') ? 'fa-sun' :
+                                    forecast.icon_code.endsWith('n') ? 'fa-moon' : 'fa-cloud'
+                                } weather-icon"></i>
+                                <span class="temp-range">${forecast.temp_max}° / ${forecast.temp_min}°</span>
+                            `;
+                            forecastList.appendChild(forecastItem);
+                        });
+                    } else {
+                        alert('Error al actualizar el clima: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    refreshBtn.style.animation = '';
+                    alert('Error al actualizar el clima: ' + error);
+                });
         }
+
+        // Solicitar ubicación al usuario al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        fetch('/update_location', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                lat: position.coords.latitude,
+                                lon: position.coords.longitude
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                console.log('Ubicación actualizada correctamente.');
+                                // Refrescar el clima automáticamente después de actualizar la ubicación
+                                refreshWeather();
+                            } else {
+                                console.error('Error al actualizar ubicación:', data.error);
+                            }
+                        })
+                        .catch(error => console.error('Error al enviar ubicación al servidor:', error));
+                    },
+                    function(error) {
+                        console.error('Error al obtener la geolocalización:', error.message);
+                    }
+                );
+            } else {
+                console.log('La geolocalización no está soportada en este navegador.');
+            }
+        });
     </script>
 </body>
 </html>
