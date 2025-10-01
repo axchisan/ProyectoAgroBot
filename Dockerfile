@@ -15,9 +15,6 @@ COPY . .
 # Instalar dependencias de Python
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Entrenar el modelo y limpiar
-RUN python train_intent_classifier.py && rm -rf results
-
 # Instalar gunicorn para producción
 RUN pip install gunicorn
 
