@@ -1,0 +1,203 @@
+/* Estilos para la comparación */
+        .comparison-summary {
+            margin-bottom: 30px;
+        }
+
+        .comparison-summary h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .comparison-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .comparison-tag {
+            background: rgba(74, 124, 89, 0.1);
+            color: var(--primary-green);
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .comparison-tag.crop-tag {
+            background: rgba(244, 162, 97, 0.1);
+            color: var(--accent-orange);
+        }
+
+        .comparison-tag.year-tag {
+            background: rgba(0, 184, 148, 0.1);
+            color: var(--success);
+        }
+
+        /* Estilos para la selección inicial */
+        .initial-selection {
+            text-align: center;
+            padding: 60px 20px;
+            margin-bottom: 30px;
+        }
+
+        .initial-selection-content i {
+            font-size: 48px;
+            color: var(--primary-green);
+            margin-bottom: 20px;
+        }
+
+        .initial-selection-content h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .initial-selection-content p {
+            font-size: 16px;
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+
+        /* Estilos para departamentos destacados */
+        .featured-departments,
+        .recommended-analysis {
+            margin-bottom: 30px;
+        }
+
+        .featured-departments h3,
+        .recommended-analysis h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .department-card {
+            padding: 20px;
+            cursor: pointer;
+        }
+
+        .department-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .department-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--light-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-green);
+            font-size: 16px;
+        }
+
+        .department-header h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+            color: var(--text-dark);
+        }
+
+        .department-card p {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .department-action {
+            text-align: right;
+        }
+
+        /* Estilos para análisis recomendados */
+        .analysis-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            cursor: pointer;
+        }
+
+        .analysis-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--light-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-green);
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .analysis-content {
+            flex: 1;
+        }
+
+        .analysis-content h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+
+        .analysis-content p {
+            font-size: 14px;
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        .analysis-action {
+            color: var(--text-light);
+            font-size: 16px;
+        }
+
+        /* Estilos para select múltiple */
+        select[multiple] {
+            height: 200px;
+            padding: 8px;
+        }
+
+        select[multiple] option {
+            padding: 8px;
+            margin-bottom: 2px;
+            border-radius: 4px;
+        }
+
+        select[multiple] option:checked {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .department-card,
+            .analysis-card {
+                padding: 15px;
+            }
+            
+            .department-icon,
+            .analysis-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+            
+            select[multiple] {
+                height: 150px;
+            }
+        }

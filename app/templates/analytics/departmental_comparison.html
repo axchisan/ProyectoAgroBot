@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparación Departamental - Agrobot</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/departmental_comparison.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="analytics-page">
+    <div class="page-layout">
+        <div class="page-content">
+            <!-- Header -->
+            <div class="page-header">
+                <div class="header-left">
+                    <a href="{{ url_for('analytics.dashboard') }}" class="back-btn">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <h2>Comparación Departamental</h2>
+                </div>
+                <div class="header-actions">
+                    <button class="filter-btn" onclick="toggleFilters()">
+                        <i class="fas fa-filter"></i>
+                    </button>
+                    <button class="refresh-btn" onclick="location.reload()">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="analytics-container">
+                <!-- Filtros -->
+                <div class="filters-section card-responsive" id="filtersSection">
+                    <h4>Filtros de Comparación</h4>
+                    <form method="GET" class="filters-form">
+                        <div class="grid-responsive grid-2">
+                            <div class="filter-group">
+                                <label for="departments">Departamentos a Comparar</label>
+                                <select name="departments" id="departments" class="form-select" multiple size="5">
+                                    {% for dept in departments_list %}
+                                    <option value="{{ dept }}" {% if dept in selected_departments %}selected{% endif %}>
+                                        {{ dept.title() }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                                <small class="text-muted">Mantén presionado Ctrl/Cmd para seleccionar múltiples departamentos</small>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <div class="mb-3">
+                                    <label for="crop">Cultivo</label>
+                                    <select name="crop" id="crop" class="form-select">
+                                        <option value="">Todos los cultivos</option>
+                                        {% for crop in crops_list %}
+                                        <option value="{{ crop }}" {% if crop == selected_crop %}selected{% endif %}>
+                                            {{ crop.title() }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label for="year">Año</label>
+                                    <select name="year" id="year" class="form-select">
+                                        <option value="">Todos los años</option>
+                                        {% for year in years_range.available_years %}
+                                        <option value="{{ year }}" {% if year|string == selected_year %}selected{% endif %}>
+                                            {{ year }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-actions">
+                            <button type="submit" class="btn-primary-modern">
+                                <i class="fas fa-search"></i>
+                                Comparar Departamentos
+                            </button>
+                            <a href="{{ url_for('analytics.departmental_comparison') }}" class="btn-secondary-modern">
+                                <i class="fas fa-times"></i>
+                                Limpiar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
+                {% if selected_departments %}
+                <!-- Resumen de Comparación -->
+                <div class="comparison-summary">
+                    <h3>Comparación de {{ selected_departments|length }} Departamentos</h3>
+                    <div class="comparison-tags">
+                        {% for dept in selected_departments %}
+                        <div class="comparison-tag">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>{{ dept.title() }}</span>
+                        </div>
+                        {% endfor %}
+                        
+                        {% if selected_crop %}
+                        <div class="comparison-tag crop-tag">
+                            <i class="fas fa-seedling"></i>
+                            <span>{{ selected_crop.title() }}</span>
+                        </div>
+                        {% endif %}
+                        
+                        {% if selected_year %}
+                        <div class="comparison-tag year-tag">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>{{ selected_year }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Gráficos de Comparación -->
+                <div class="charts-section">
+                    <div class="grid-responsive grid-2">
+                        <div class="chart-container card-responsive">
+                            <h4>Comparación de Producción</h4>
+                            <canvas id="productionComparisonChart"></canvas>
+                        </div>
+                        
+                        <div class="chart-container card-responsive">
+                            <h4>Comparación de Área Cultivada</h4>
+                            <canvas id="areaComparisonChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="grid-responsive grid-1">
+                        <div class="chart-container card-responsive">
+                            <h4>Comparación de Rendimiento</h4>
+                            <canvas id="yieldComparisonChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabla de Datos -->
+                {% if filtered_data %}
+                <div class="data-table-section">
+                    <div class="table-header">
+                        <h4>Datos Detallados</h4>
+                        <div class="table-actions">
+                            <button class="btn-outline-modern" onclick="exportData('csv')">
+                                <i class="fas fa-download"></i>
+                                Exportar CSV
+                            </button>
+                            <button class="btn-outline-modern" onclick="exportData('json')">
+                                <i class="fas fa-download"></i>
+                                Exportar JSON
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Departamento</th>
+                                    <th>Producto</th>
+                                    <th>Año</th>
+                                    <th>Área (ha)</th>
+                                    <th>Producción (ton)</th>
+                                    <th>Rendimiento (ha/ton)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in filtered_data %}
+                                <tr>
+                                    <td>{{ row['Departamento'] }}</td>
+                                    <td>{{ row['Producto'] }}</td>
+                                    <td>{{ row['Año'] }}</td>
+                                    <td>{{ "{:,.2f}".format(row['Area (ha)']) if row['Area (ha)'] else 'N/A' }}</td>
+                                    <td>{{ "{:,.2f}".format(row['Produccion (ton)']) if row['Produccion (ton)'] else 'N/A' }}</td>
+                                    <td>{{ "{:.2f}".format(row['Rendimiento (ha/ton)']) if row['Rendimiento (ha/ton)'] else 'N/A' }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    {% if filtered_data|length >= 100 %}
+                    <div class="table-footer">
+                        <p class="text-muted">Mostrando los primeros 100 registros. Use filtros para refinar la búsqueda.</p>
+                    </div>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div class="no-data-section card-responsive">
+                    <div class="no-data-content">
+                        <i class="fas fa-search"></i>
+                        <h4>No se encontraron datos para la comparación</h4>
+                        <p>Intenta seleccionar otros departamentos, cultivos o años.</p>
+                    </div>
+                </div>
+                {% endif %}
+                
+                {% else %}
+                <!-- Selección Inicial -->
+                <div class="initial-selection card-responsive">
+                    <div class="initial-selection-content">
+                        <i class="fas fa-chart-bar"></i>
+                        <h3>Comparación Departamental</h3>
+                        <p>Selecciona al menos dos departamentos para iniciar la comparación.</p>
+                        <button class="btn-primary-modern" onclick="toggleFilters()">
+                            <i class="fas fa-filter"></i>
+                            Seleccionar Departamentos
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Departamentos Destacados -->
+                <div class="featured-departments">
+                    <h3>Departamentos Destacados</h3>
+                    <div class="grid-responsive grid-3">
+                        <div class="department-card card-responsive" onclick="selectDepartments(['CUNDINAMARCA', 'ANTIOQUIA'])">
+                            <div class="department-header">
+                                <div class="department-icon">
+                                    <i class="fas fa-mountain"></i>
+                                </div>
+                                <h4>Región Andina</h4>
+                            </div>
+                            <p>Comparar Cundinamarca y Antioquia</p>
+                            <div class="department-action">
+                                <button class="btn-outline-modern btn-sm">Comparar</button>
+                            </div>
+                        </div>
+                        
+                        <div class="department-card card-responsive" onclick="selectDepartments(['VALLE DEL CAUCA', 'CAUCA', 'NARIÑO'])">
+                            <div class="department-header">
+                                <div class="department-icon">
+                                    <i class="fas fa-coffee"></i>
+                                </div>
+                                <h4>Eje Cafetero</h4>
+                            </div>
+                            <p>Comparar Valle, Cauca y Nariño</p>
+                            <div class="department-action">
+                                <button class="btn-outline-modern btn-sm">Comparar</button>
+                            </div>
+                        </div>
+                        
+                        <div class="department-card card-responsive" onclick="selectDepartments(['ATLANTICO', 'BOLIVAR', 'MAGDALENA'])">
+                            <div class="department-header">
+                                <div class="department-icon">
+                                    <i class="fas fa-water"></i>
+                                </div>
+                                <h4>Región Caribe</h4>
+                            </div>
+                            <p>Comparar Atlántico, Bolívar y Magdalena</p>
+                            <div class="department-action">
+                                <button class="btn-outline-modern btn-sm">Comparar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Análisis Recomendados -->
+                <div class="recommended-analysis">
+                    <h3>Análisis Recomendados</h3>
+                    <div class="grid-responsive grid-2">
+                        <div class="analysis-card card-responsive" onclick="selectAnalysis('cafe')">
+                            <div class="analysis-icon">
+                                <i class="fas fa-mug-hot"></i>
+                            </div>
+                            <div class="analysis-content">
+                                <h4>Producción de Café</h4>
+                                <p>Comparar los principales departamentos productores de café</p>
+                            </div>
+                            <div class="analysis-action">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="analysis-card card-responsive" onclick="selectAnalysis('papa')">
+                            <div class="analysis-icon">
+                                <i class="fas fa-carrot"></i>
+                            </div>
+                            <div class="analysis-content">
+                                <h4>Cultivo de Papa</h4>
+                                <p>Comparar rendimiento de papa en departamentos andinos</p>
+                            </div>
+                            <div class="analysis-action">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        // Configurar gráficos si hay datos
+        {% if selected_departments %}
+        document.addEventListener('DOMContentLoaded', function() {
+            // Colores para departamentos
+            const departmentColors = [
+                'rgba(74, 124, 89, 0.8)',   // Verde primario
+                'rgba(244, 162, 97, 0.8)',  // Naranja acento
+                'rgba(107, 155, 122, 0.8)', // Verde secundario
+                'rgba(168, 213, 186, 0.8)', // Verde claro
+                'rgba(225, 112, 85, 0.8)',  // Rojo
+                'rgba(253, 203, 110, 0.8)', // Amarillo
+                'rgba(0, 184, 148, 0.8)',   // Verde éxito
+                'rgba(9, 132, 227, 0.8)',   // Azul
+                'rgba(108, 92, 231, 0.8)',  // Púrpura
+                'rgba(214, 48, 49, 0.8)'    // Rojo oscuro
+            ];
+            
+            // Datos para gráfico de producción
+            fetch('{{ url_for("analytics.api_chart_data") }}?category=departmental&chart_type=production_comparison&departments={{ selected_departments|join(",") }}{% if selected_crop %}&crop={{ selected_crop }}{% endif %}{% if selected_year %}&year={{ selected_year }}{% endif %}')
+                .then(response => response.json())
+                .then(data => {
+                    // Asignar colores a los datasets
+                    data.datasets.forEach((dataset, index) => {
+                        dataset.backgroundColor = departmentColors[index % departmentColors.length];
+                        dataset.borderColor = departmentColors[index % departmentColors.length].replace('0.8', '1');
+                    });
+                    
+                    const productionCtx = document.getElementById('productionComparisonChart').getContext('2d');
+                    new Chart(productionCtx, {
+                        type: 'bar',
+                        data: data,
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Producción por Departamento'
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Producción (toneladas)'
+                                    }
+                                }
+                            }
+                        }
+                    });
+                });
+            
+            // Datos para gráfico de área
+            fetch('{{ url_for("analytics.api_chart_data") }}?category=departmental&chart_type=area_comparison&departments={{ selected_departments|join(",") }}{% if selected_crop %}&crop={{ selected_crop }}{% endif %}{% if selected_year %}&year={{ selected_year }}{% endif %}')
+                .then(response => response.json())
+                .then(data => {
+                    // Asignar colores a los datasets
+                    data.datasets.forEach((dataset, index) => {
+                        dataset.backgroundColor = departmentColors[index % departmentColors.length];
+                        dataset.borderColor = departmentColors[index % departmentColors.length].replace('0.8', '1');
+                    });
+                    
+                    const areaCtx = document.getElementById('areaComparisonChart').getContext('2d');
+                    new Chart(areaCtx, {
+                        type: 'bar',
+                        data: data,
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Área por Departamento'
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Área (hectáreas)'
+                                    }
+                                }
+                            }
+                        }
+                    });
+                });
+            
+            // Datos para gráfico de rendimiento
+            fetch('{{ url_for("analytics.api_chart_data") }}?category=departmental&chart_type=yield_comparison&departments={{ selected_departments|join(",") }}{% if selected_crop %}&crop={{ selected_crop }}{% endif %}{% if selected_year %}&year={{ selected_year }}{% endif %}')
+                .then(response => response.json())
+                .then(data => {
+                    // Asignar colores a los datasets
+                    data.datasets.forEach((dataset, index) => {
+                        dataset.backgroundColor = departmentColors[index % departmentColors.length];
+                        dataset.borderColor = departmentColors[index % departmentColors.length].replace('0.8', '1');
+                    });
+                    
+                    const yieldCtx = document.getElementById('yieldComparisonChart').getContext('2d');
+                    new Chart(yieldCtx, {
+                        type: 'radar',
+                        data: data,
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Rendimiento por Departamento'
+                                }
+                            },
+                            scales: {
+                                r: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                });
+        });
+        {% endif %}
+
+        function toggleFilters() {
+            const filtersSection = document.getElementById('filtersSection');
+            filtersSection.classList.toggle('active');
+        }
+
+        function exportData(format) {
+            const params = new URLSearchParams(window.location.search);
+            params.set('format', format);
+            
+            const exportUrl = `{{ url_for('analytics.export_data') }}?category=departmental&${params.toString()}`;
+            window.open(exportUrl, '_blank');
+        }
+        
+        function selectDepartments(departments) {
+            // Seleccionar departamentos y enviar formulario
+            const select = document.getElementById('departments');
+            
+            // Deseleccionar todos primero
+            for (let i = 0; i < select.options.length; i++) {
+                select.options[i].selected = false;
+            }
+            
+            // Seleccionar los departamentos especificados
+            for (let i = 0; i < select.options.length; i++) {
+                if (departments.includes(select.options[i].value)) {
+                    select.options[i].selected = true;
+                }
+            }
+            
+            // Mostrar filtros y hacer scroll
+            document.getElementById('filtersSection').classList.add('active');
+            document.getElementById('filtersSection').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function selectAnalysis(type) {
+            // Configurar análisis predefinidos
+            const select = document.getElementById('departments');
+            const cropSelect = document.getElementById('crop');
+            
+            // Deseleccionar todos primero
+            for (let i = 0; i < select.options.length; i++) {
+                select.options[i].selected = false;
+            }
+            
+            if (type === 'cafe') {
+                // Seleccionar departamentos cafeteros
+                const cafeDepts = ['HUILA', 'ANTIOQUIA', 'TOLIMA', 'CAUCA', 'NARIÑO'];
+                for (let i = 0; i < select.options.length; i++) {
+                    if (cafeDepts.includes(select.options[i].value)) {
+                        select.options[i].selected = true;
+                    }
+                }
+                
+                // Seleccionar café como cultivo
+                for (let i = 0; i < cropSelect.options.length; i++) {
+                    if (cropSelect.options[i].value.toLowerCase() === 'cafe') {
+                        cropSelect.options[i].selected = true;
+                        break;
+                    }
+                }
+            } else if (type === 'papa') {
+                // Seleccionar departamentos paperos
+                const papaDepts = ['CUNDINAMARCA', 'BOYACA', 'NARIÑO', 'ANTIOQUIA'];
+                for (let i = 0; i < select.options.length; i++) {
+                    if (papaDepts.includes(select.options[i].value)) {
+                        select.options[i].selected = true;
+                    }
+                }
+                
+                // Seleccionar papa como cultivo
+                for (let i = 0; i < cropSelect.options.length; i++) {
+                    if (cropSelect.options[i].value.toLowerCase() === 'papa') {
+                        cropSelect.options[i].selected = true;
+                        break;
+                    }
+                }
+            }
+            
+            // Mostrar filtros y hacer scroll
+            document.getElementById('filtersSection').classList.add('active');
+            document.getElementById('filtersSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Inicializar filtros como activos si hay parámetros
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.toString()) {
+                document.getElementById('filtersSection').classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>
