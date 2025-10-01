@@ -20,6 +20,7 @@ def dashboard():
     for category in datasets_info['categories']:
         general_stats[category] = data_processor.get_summary_stats(category)
     
+    print(datasets_info.metadata)
     return render_template('analytics/dashboard.html',
                          datasets_info=datasets_info,
                          crops_list=crops_list[:20],  # Mostrar solo los primeros 20
