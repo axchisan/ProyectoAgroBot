@@ -80,6 +80,7 @@
                 <div class="categories-section">
                     <h3>Categorías de Datos Disponibles</h3>
                     <div class="grid-responsive grid-2">
+                        {% if datasets_info.metadata.national_crops %}
                         <div class="category-card card-responsive">
                             <div class="category-header">
                                 <div class="category-icon">
@@ -98,7 +99,14 @@
                                 </a>
                             </div>
                         </div>
+                        {% else %}
+                        <div class="category-card card-responsive">
+                            <h4>Datos Nacionales por Cultivo</h4>
+                            <p>No disponible</p>
+                        </div>
+                        {% endif %}
 
+                        {% if datasets_info.metadata.municipal %}
                         <div class="category-card card-responsive">
                             <div class="category-header">
                                 <div class="category-icon">
@@ -117,7 +125,14 @@
                                 </a>
                             </div>
                         </div>
+                        {% else %}
+                        <div class="category-card card-responsive">
+                            <h4>Datos Municipales</h4>
+                            <p>No disponible</p>
+                        </div>
+                        {% endif %}
 
+                        {% if datasets_info.metadata.comparative %}
                         <div class="category-card card-responsive">
                             <div class="category-header">
                                 <div class="category-icon">
@@ -136,7 +151,14 @@
                                 </a>
                             </div>
                         </div>
+                        {% else %}
+                        <div class="category-card card-responsive">
+                            <h4>Comparativo Departamental</h4>
+                            <p>No disponible</p>
+                        </div>
+                        {% endif %}
 
+                        {% if datasets_info.metadata.departmental %}
                         <div class="category-card card-responsive">
                             <div class="category-header">
                                 <div class="category-icon">
@@ -155,6 +177,12 @@
                                 </a>
                             </div>
                         </div>
+                        {% else %}
+                        <div class="category-card card-responsive">
+                            <h4>Participación Departamental</h4>
+                            <p>No disponible</p>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
 
