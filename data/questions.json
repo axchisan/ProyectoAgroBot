@@ -1,0 +1,244 @@
+{
+  "theoretical": [
+    {
+      "question": "¿Qué es Agrobot?",
+      "answer": "Agrobot es un chatbot creado para apoyar a pequeños agricultores en Colombia. Te ayuda con recomendaciones sobre siembra, manejo de cultivos, clima y prácticas sostenibles. Por ejemplo, puedes preguntarme qué sembrar en tu región o cómo controlar plagas de forma orgánica, y te daré respuestas claras y adaptadas a tu contexto, usando datos agrícolas y un lenguaje sencillo para que puedas aplicar los consejos fácilmente en tu finca."
+    },
+    {
+      "question": "¿Qué es la agricultura sostenible?",
+      "answer": "La agricultura sostenible busca producir alimentos de manera que no dañe el medio ambiente ni agote los recursos para el futuro. En Colombia, esto significa usar técnicas como rotación de cultivos, abonos orgánicos y menos químicos para cuidar el suelo y el agua. Por ejemplo, alternar maíz con frijol ayuda a mantener la fertilidad del suelo. Además, reduces costos a largo plazo y proteges tu finca de plagas y sequías, asegurando que siga siendo productiva para las próximas generaciones."
+    },
+    {
+      "question": "¿Cómo puedo controlar plagas de manera orgánica?",
+      "answer": "Para controlar plagas de forma orgánica en tu finca, sigue estos pasos: 1) Usa insecticidas naturales como ajo o neem, que repelen insectos sin dañar el suelo; 2) Instala trampas pegajosas para capturar plagas como moscas blancas; 3) Fomenta la biodiversidad plantando flores que atraigan mariquitas, que comen pulgones. En Colombia, por ejemplo, el neem es efectivo contra gusanos en cultivos de tomate. Este método reduce costos, protege la salud del suelo y evita químicos que afectan a los polinizadores como las abejas."
+    },
+    {
+      "question": "¿Qué es la rotación de cultivos?",
+      "answer": "La rotación de cultivos es una técnica donde alternas diferentes cultivos en el mismo terreno cada temporada. Por ejemplo, si siembras maíz este año, el próximo puedes sembrar frijol. Esto mejora la fertilidad del suelo porque cada cultivo usa y aporta distintos nutrientes, como el frijol que fija nitrógeno. Además, reduces plagas y enfermedades al interrumpir su ciclo. En Colombia, esta práctica es ideal para pequeños agricultores, ya que protege el suelo y aumenta los rendimientos sin necesidad de químicos costosos."
+    },
+    {
+      "question": "¿Qué es la agricultura de precisión?",
+      "answer": "La agricultura de precisión usa tecnología para gestionar cultivos de forma eficiente. En Colombia, pequeños agricultores pueden usar herramientas simples como sensores de humedad para regar solo cuando es necesario, ahorrando agua. También puedes usar mapas de suelo para saber dónde aplicar abono. Esto optimiza recursos, aumenta la productividad y reduce costos. Por ejemplo, si cultivas papa en Boyacá, puedes usar un medidor de pH para ajustar el suelo y mejorar el rendimiento, asegurando una cosecha más rentable con menos impacto ambiental."
+    },
+    {
+      "question": "¿Cómo puedo acceder a financiamiento para mi proyecto agrícola?",
+      "answer": "En Colombia, puedes buscar financiamiento agrícola a través de varios caminos. 1) Programas gubernamentales como los del Ministerio de Agricultura, que ofrecen créditos blandos para pequeños productores. 2) Cooperativas agrícolas como Coagrosur en Huila, que dan préstamos y asesoría. 3) Organizaciones como Finagro, que tienen líneas de crédito para cultivos como café o maíz. Acércate a las secretarías de agricultura de tu municipio para información local. Estos apoyos te ayudan a comprar semillas, herramientas o mejorar tu finca sin endeudarte demasiado."
+    },
+    {
+      "question": "¿Qué es la agroecología?",
+      "answer": "La agroecología combina ciencia y prácticas tradicionales para cultivar de forma sostenible. En Colombia, implica usar abonos orgánicos, como compost, y rotación de cultivos para cuidar el suelo. Por ejemplo, en Antioquia, muchos cafeteros usan sombra de árboles para proteger el café y atraer aves que controlan plagas. Esto mejora la producción, reduce costos de químicos y protege el ecosistema. Además, fortalece la resiliencia de tu finca frente a sequías o lluvias extremas, asegurando cosechas estables para tu familia y comunidad."
+    },
+    {
+      "question": "¿Qué es la agricultura regenerativa?",
+      "answer": "La agricultura regenerativa busca restaurar la salud del suelo y los ecosistemas. En Colombia, esto incluye prácticas como no arar el suelo para evitar erosión, usar cultivos de cobertura como trébol y aplicar compost. Por ejemplo, en Cundinamarca, algunos agricultores siembran papa con abonos verdes para enriquecer el suelo. Esto mejora la fertilidad, retiene agua y captura carbono, ayudando al medio ambiente. A largo plazo, tus cultivos serán más resistentes a plagas y cambios climáticos, y gastarás menos en fertilizantes químicos."
+    },
+    {
+      "question": "¿Qué es la agricultura urbana?",
+      "answer": "La agricultura urbana es cultivar alimentos en ciudades, como en patios, terrazas o huertas comunitarias. En Colombia, en ciudades como Bogotá, puedes sembrar hortalizas como lechuga en macetas con tierra y compost. Esto promueve la seguridad alimentaria, reduce costos al producir tu comida y mejora el ambiente al aumentar áreas verdes. Además, puedes vender excedentes en mercados locales. Es ideal para familias con poco espacio, ya que solo necesitas sol, agua y semillas para empezar a cultivar de forma sostenible."
+    },
+    {
+      "question": "¿Qué es la permacultura?",
+      "answer": "La permacultura es un sistema de diseño agrícola que imita la naturaleza para crear fincas sostenibles. En Colombia, puedes aplicarla diversificando cultivos, como sembrar maíz con frutales y hortalizas, para aprovechar mejor el espacio. Usa técnicas como captación de agua lluvia y compostaje para no depender de insumos externos. Esto reduce costos, mejora el suelo y asegura alimentos variados. Por ejemplo, en Valle del Cauca, algunos agricultores combinan cacao con plátano, creando sombra y protegiendo el suelo de la erosión."
+    },
+    {
+      "question": "¿Qué son los cultivos transgénicos?",
+      "answer": "Los cultivos transgénicos son plantas modificadas genéticamente para tener características específicas, como resistencia a plagas o sequías. En Colombia, se usan cultivos como el maíz transgénico que resiste insectos sin necesidad de tantos pesticidas. Esto puede aumentar el rendimiento y reducir costos, pero también hay preocupaciones por su impacto en la biodiversidad y la salud. Si los usas, asegúrate de seguir normas locales y considera combinarlos con prácticas sostenibles para proteger tu suelo y cultivos nativos a largo plazo."
+    },
+    {
+      "question": "¿Qué es el manejo integrado de plagas?",
+      "answer": "El manejo integrado de plagas (MIP) combina métodos para controlar plagas de forma sostenible. En Colombia, puedes usar: 1) Control biológico, como liberar mariquitas para comer pulgones en cultivos de tomate; 2) Métodos culturales, como rotar cultivos para romper el ciclo de plagas; 3) Insecticidas naturales, como extracto de ajo. Esto reduce el uso de químicos, protege el ambiente y baja costos. Por ejemplo, en cultivos de café en Caldas, el MIP ha disminuido el uso de pesticidas, manteniendo la calidad del grano."
+    },
+    {
+      "question": "¿Qué es la lixiviación de nutrientes?",
+      "answer": "La lixiviación de nutrientes ocurre cuando el agua arrastra nutrientes como nitrógeno o potasio del suelo, reduciendo su fertilidad. En Colombia, es común en zonas de alta lluvia como Chocó. Para evitarlo: 1) Usa cultivos de cobertura como frijol para proteger el suelo; 2) Aplica abono en pequeñas dosis; 3) Evita el exceso de riego. Esto mantiene el suelo fértil, reduce pérdidas y asegura que tus cultivos, como plátano o yuca, tengan los nutrientes necesarios para crecer sanos."
+    },
+    {
+      "question": "¿Qué es la agricultura biodinámica?",
+      "answer": "La agricultura biodinámica ve la finca como un organismo vivo, usando prácticas sostenibles y respetando ciclos naturales. En Colombia, implica sembrar según el calendario lunar y usar preparados orgánicos, como estiércol fermentado, para enriquecer el suelo. Por ejemplo, en cultivos de café en Risaralda, algunos agricultores aplican estos métodos para mejorar la calidad del grano. Esto fortalece el suelo, aumenta la resiliencia de los cultivos y reduce la dependencia de químicos, beneficiando tanto a tu finca como al ecosistema."
+    },
+    {
+      "question": "¿Qué es la fertilidad del suelo?",
+      "answer": "La fertilidad del suelo es su capacidad de proveer nutrientes para que las plantas crezcan sanas. En Colombia, depende de factores como la materia orgánica, el pH y la textura del suelo. Para mejorarla: 1) Aplica compost o estiércol; 2) Siembra cultivos como frijol que fijan nitrógeno; 3) Evita el monocultivo. Por ejemplo, en Boyacá, los agricultores de papa mantienen la fertilidad con abonos orgánicos, asegurando buenas cosechas y reduciendo costos en fertilizantes químicos a largo plazo."
+    },
+    {
+      "question": "¿Qué es el monocultivo?",
+      "answer": "El monocultivo es sembrar la misma planta, como maíz, en el mismo terreno durante varios ciclos. En Colombia, esto es común en cultivos como caña de azúcar, pero tiene desventajas: agota nutrientes del suelo, aumenta plagas y reduce la biodiversidad. Para evitar problemas, rota cultivos; por ejemplo, siembra frijol después de maíz para recuperar nitrógeno. Esto mejora la salud del suelo, reduce costos en pesticidas y asegura cosechas más estables y sostenibles a largo plazo."
+    },
+    {
+      "question": "¿Qué es la agricultura de conservación?",
+      "answer": "La agricultura de conservación busca proteger el suelo con tres principios: mínima labranza, cobertura permanente del suelo y diversificación de cultivos. En Colombia, puedes aplicar esto dejando residuos de cosecha como cobertura y alternando cultivos como maíz y yuca. En Tolima, algunos agricultores usan esta técnica para reducir la erosión en laderas. Esto mejora la retención de agua, aumenta la fertilidad del suelo y hace que tu finca sea más resistente a sequías, ahorrándote tiempo y recursos."
+    },
+    {
+      "question": "¿Qué son los biofertilizantes?",
+      "answer": "Los biofertilizantes son productos con microorganismos vivos que ayudan a las plantas a obtener nutrientes. En Colombia, por ejemplo, las bacterias fijadoras de nitrógeno, como Rhizobium, se usan en cultivos de frijol para mejorar el crecimiento sin fertilizantes químicos. Aplica biofertilizantes mezclándolos con agua y rociando las raíces al sembrar. Esto enriquece el suelo, reduce costos y es sostenible. En Santander, muchos agricultores los usan para mejorar el rendimiento de sus cultivos de forma natural."
+    },
+    {
+      "question": "¿Qué es el pH del suelo y por qué es importante?",
+      "answer": "El pH del suelo mide su acidez o alcalinidad, y va de 0 a 14; un pH de 6 a 7 es ideal para la mayoría de los cultivos en Colombia. Es importante porque afecta cómo las plantas absorben nutrientes. Por ejemplo, si el pH es muy ácido (menor a 5), cultivos como el maíz no absorben bien el fósforo. Puedes ajustarlo con cal agrícola para subir el pH o azufre para bajarlo. En Cundinamarca, los agricultores de papa miden el pH para asegurar mejores cosechas."
+    },
+    {
+      "question": "¿Qué es la erosión del suelo?",
+      "answer": "La erosión del suelo es la pérdida de la capa fértil del suelo por agua, viento o actividades humanas. En Colombia, es común en laderas como en Huila por las lluvias fuertes. Para prevenirla: 1) Siembra en curvas de nivel; 2) Usa cultivos de cobertura como pasto; 3) Construye terrazas. Esto protege el suelo, mantiene su fertilidad y asegura que cultivos como café o yuca crezcan bien. La erosión reduce la productividad, así que cuidarlo es clave para tu finca."
+    },
+    {
+      "question": "¿Cómo siembro en invernadero?",
+      "answer": "Para sembrar en invernadero en Colombia, sigue estos pasos: 1) Usa sustratos como turba o fibra de coco para un buen drenaje; 2) Mantén la temperatura entre 20-30°C, ideal para cultivos como tomate; 3) Asegura ventilación para evitar hongos, abriendo ventanas o usando extractores. Por ejemplo, en Antioquia, muchos cultivan flores en invernaderos controlando la humedad. Esto protege tus plantas de lluvias fuertes, mejora el rendimiento y te permite cosechar todo el año con menos riesgos."
+    },
+    {
+      "question": "¿Qué es siembra hidropónica?",
+      "answer": "La siembra hidropónica es un método para cultivar plantas sin suelo, usando agua con nutrientes disueltos. En Colombia, es común para hortalizas como lechuga en ciudades como Bogotá. Necesitas: 1) Un sistema con tubos o bandejas; 2) Una solución nutritiva con nitrógeno, fósforo y potasio; 3) Controlar el pH del agua (5.5-6.5). Esto ahorra agua, evita plagas del suelo y permite cosechas más rápidas. Es ideal si tienes poco espacio y quieres producir alimentos frescos de forma sostenible."
+    },
+    {
+      "question": "¿Qué son abonos orgánicos?",
+      "answer": "Los abonos orgánicos son fertilizantes naturales como compost, estiércol o restos de cosecha que enriquecen el suelo. En Colombia, puedes usar estiércol de gallina para cultivos como maíz, aplicándolo unas semanas antes de sembrar para que se descomponga. Mejoran la fertilidad, retienen humedad y fomentan microorganismos beneficiosos. Por ejemplo, en Valle del Cauca, los agricultores usan compost para plátano, reduciendo costos en químicos y mejorando la calidad del suelo a largo plazo para cosechas más sanas."
+    },
+    {
+      "question": "¿Qué es compostaje?",
+      "answer": "El compostaje es el proceso de descomponer restos orgánicos, como cáscaras de frutas o estiércol, para hacer abono natural. En Colombia, puedes hacerlo así: 1) Junta residuos en un montón; 2) Añade capas de material seco como hojas; 3) Voltea cada 2 semanas y mantén húmedo. En 2-3 meses tendrás compost para tus cultivos, como papa en Boyacá. Esto mejora el suelo, reduce desperdicios y ahorra dinero en fertilizantes, mientras cuidas el ambiente de tu finca."
+    },
+    {
+      "question": "¿Por qué es importante la agroecología para pequeños productores?",
+      "answer": "La agroecología es clave para pequeños productores en Colombia porque reduce costos y protege el ambiente. Usar abonos orgánicos y rotación de cultivos, como maíz con frijol, mejora el suelo sin gastar en químicos. Además, hace tu finca más resistente a sequías o lluvias extremas, comunes en regiones como Tolima. Esto asegura cosechas estables, mejora tus ingresos y cuida los recursos para el futuro, permitiéndote mantener tu tierra productiva para tu familia y comunidad."
+    },
+    {
+      "question": "¿Qué diferencia hay entre agricultura sostenible y agroecología?",
+      "answer": "La agricultura sostenible busca producir sin dañar el ambiente a largo plazo, usando menos químicos y cuidando el suelo. La agroecología va más allá: combina ecología y tradiciones locales, como en Colombia, donde cafeteros en Caldas usan sombra de árboles para proteger el suelo y controlar plagas. Mientras la sostenibilidad es un objetivo general, la agroecología es un enfoque más específico que prioriza la biodiversidad y los ciclos naturales, adaptándose mejor a las necesidades de pequeños productores."
+    },
+    {
+      "question": "¿Qué pasaría si no uso rotación de cultivos?",
+      "answer": "Si no usas rotación de cultivos, el suelo se agota porque el mismo cultivo, como maíz, consume los mismos nutrientes cada ciclo. En Colombia, esto aumenta plagas y enfermedades; por ejemplo, el maíz puede atraer más gusanos sin rotación. Además, reduces la fertilidad del suelo, lo que baja tus cosechas y te obliga a gastar más en fertilizantes. Alternar cultivos como frijol o yuca, como делают en Huila, mantiene el suelo sano y mejora los rendimientos a largo plazo."
+    },
+    {
+      "question": "¿Puedo mezclar biofertilizantes y abonos orgánicos?",
+      "answer": "Sí, puedes mezclar biofertilizantes y abonos orgánicos para mejorar tu suelo. En Colombia, aplica compost y biofertilizantes como Rhizobium en cultivos de frijol. Primero, esparce el compost en el terreno y luego riega con biofertilizante diluido en agua. Esto enriquece el suelo con nutrientes y microorganismos, como en cultivos de papa en Boyacá, donde esta mezcla mejora el rendimiento. Solo evita excesos para no alterar el equilibrio del suelo; empieza con pequeñas cantidades y observa los resultados."
+    },
+    {
+      "question": "¿Qué impacto tiene el pH del suelo en el rendimiento del tomate?",
+      "answer": "El pH del suelo afecta mucho el rendimiento del tomate porque influye en la absorción de nutrientes. En Colombia, el tomate crece mejor con un pH entre 6 y 6.8. Si es muy ácido (menor a 5.5), no absorbe bien calcio ni magnesio, lo que causa frutos pequeños o deformes. Si es muy alcalino (mayor a 7.5), el hierro se bloquea, amarilleando las hojas. Ajusta el pH con cal agrícola si está bajo, o con azufre si está alto, para asegurar una cosecha saludable."
+    },
+    {
+      "question": "¿Se puede hacer agricultura urbana en espacios pequeños?",
+      "answer": "Sí, puedes hacer agricultura urbana en espacios pequeños, como balcones o patios, en ciudades como Bogotá. Usa macetas o cajones para sembrar lechuga, tomate o hierbas, con sustratos como turba y compost. Necesitas al menos 5 horas de sol al día y riego regular. Por ejemplo, con 1 metro cuadrado puedes cosechar hasta 5 lechugas al mes. Esto te ahorra dinero, te da alimentos frescos y mejora el ambiente, siendo ideal para familias urbanas con recursos limitados."
+    },
+    {
+      "question": "¿Qué ventajas tiene la permacultura sobre agricultura convencional?",
+      "answer": "La permacultura tiene ventajas sobre la agricultura convencional porque crea sistemas sostenibles. En Colombia, diversificar cultivos como café con plátano, como en Valle del Cauca, protege el suelo y reduce plagas sin químicos. También ahorras agua al captar lluvia y reduces costos con compost casero. A diferencia de la convencional, que agota el suelo con monocultivos, la permacultura mejora la fertilidad y la biodiversidad, haciendo tu finca más resiliente a cambios climáticos y asegurando cosechas estables a largo plazo."
+    },
+    {
+      "question": "¿Me conviene rotar papa con maíz o con tomate?",
+      "answer": "En Colombia, rotar papa con maíz es más conveniente que con tomate. La papa y el tomate son de la misma familia (Solanáceas), por lo que comparten plagas como el tizón tardío, aumentando el riesgo de enfermedades. En cambio, el maíz, al ser de otra familia (Gramíneas), rompe el ciclo de plagas y aporta materia orgánica al suelo con sus residuos. En Boyacá, esta rotación mejora la fertilidad y reduce costos en pesticidas, asegurando cosechas más sanas y sostenibles para tu finca."
+    },
+    {
+      "question": "¿Qué hago si hay plagas resistentes a pesticidas orgánicos?",
+      "answer": "Si las plagas son resistentes a pesticidas orgánicos, prueba estos pasos en Colombia: 1) Usa control biológico, como liberar mariquitas para pulgones; 2) Rota cultivos para interrumpir el ciclo de las plagas; 3) Aplica extractos más fuertes, como chile con ajo, en dosis controladas. Por ejemplo, en cultivos de tomate en Cundinamarca, combinar estos métodos ha controlado moscas blancas. Además, revisa la salud del suelo, ya que plantas débiles atraen más plagas; usa compost para fortalecerlas y reducir problemas futuros."
+    },
+    {
+      "question": "¿De dónde saca la información Agrobot?",
+      "answer": "Agrobot obtiene su información de datos agrícolas confiables, como estadísticas de producción y clima, y de conocimientos sobre prácticas sostenibles adaptadas a Colombia. Uso datasets de cultivos, rendimientos y departamentos, además de información general sobre agricultura. Todo está diseñado para darte respuestas útiles y prácticas, como qué sembrar en Santander o cómo mejorar tu suelo, basándome en lo que funciona para pequeños agricultores como tú en el contexto colombiano."
+    },
+    {
+      "question": "¿Agrobot puede recomendarme un cultivo específico según mi suelo?",
+      "answer": "Sí, puedo recomendarte cultivos según tu suelo si me das más detalles. Por ejemplo, si tu suelo es ácido (pH menor a 6), en Colombia te sugiero cultivos como café o yuca, que toleran estas condiciones. Si es arenoso, como en algunas zonas de Huila, prueba con cultivos de raíz como zanahoria. Dime tu departamento o características del suelo (como textura o pH), y te daré una recomendación más precisa para que tengas una cosecha exitosa."
+    },
+    {
+      "question": "¿Cómo responde Agrobot si no sabe algo?",
+      "answer": "Si no sé algo, te lo diré honestamente y te pediré más detalles para intentar ayudarte. Por ejemplo, si me preguntas sobre un cultivo poco común en Colombia sin datos disponibles, te sugeriré alternativas o te orientaré para buscar información local, como en secretarías de agricultura. Mi objetivo es darte respuestas útiles y prácticas, así que siempre buscaré la mejor manera de apoyarte con lo que tengo, adaptándome a tus necesidades como agricultor."
+    },
+    {
+      "question": "¿Agrobot puede equivocarse?",
+      "answer": "Sí, Agrobot puede equivocarse, ya que soy una herramienta basada en datos y modelos que no siempre cubren todas las situaciones. Sin embargo, mis respuestas están diseñadas para ser lo más precisas posible para pequeños agricultores en Colombia. Si no estoy seguro, te pediré más información o te orientaré a fuentes locales, como secretarías de agricultura. Siempre verifica mis consejos con tu experiencia y las condiciones de tu finca para tomar las mejores decisiones."
+    }
+  ],
+  "dynamic": [
+    {
+      "question": "¿Cómo consultar el clima?",
+      "type": "weather",
+      "answer_template": "Dime tu ciudad, por ejemplo: '¿Cuál es el clima en Bogotá?' y te ayudaré con la información."
+    },
+    {
+      "question": "¿Cuál es el clima en mi ciudad?",
+      "type": "weather",
+      "answer_template": "El clima en {city} es {description} con {temp}°C."
+    },
+    {
+      "question": "¿Cuál será el clima mañana en Medellín?",
+      "type": "weather_forecast",
+      "answer_template": "No tengo pronósticos futuros, pero puedo darte el clima actual de Medellín. ¿Te interesa?"
+    },
+    {
+      "question": "¿Dónde estoy ubicado?",
+      "type": "current_location",
+      "answer_template": "Parece que estás en {city}, {department}. ¿Es correcto?"
+    },
+    {
+      "question": "¿Qué cultivos son recomendables para mi región?",
+      "type": "recommendation",
+      "answer_template": "Dime tu departamento o ciudad para recomendarte cultivos adecuados para tu región."
+    },
+    {
+      "question": "¿Qué cultivo me recomiendas sembrar en mi departamento?",
+      "type": "location_based_recommendation",
+      "answer_template": "En {department}, te recomiendo sembrar {crop} con un rendimiento promedio de {yield_value} toneladas/ha."
+    },
+    {
+      "question": "¿Qué cultivos recomiendas en Santander?",
+      "type": "recommended_crops",
+      "answer_template": "En {department}, te recomiendo los siguientes cultivos:\n{crop_list}"
+    },
+    {
+      "question": "¿En qué departamento es más rentable sembrar guayaba?",
+      "type": "crop_profitability",
+      "answer_template": "Sembrar {crop} es más rentable en {department} con un rendimiento de {yield_value} toneladas/ha."
+    },
+    {
+      "question": "¿En qué departamento se produce menos maíz?",
+      "type": "crop_production",
+      "answer_template": "Se produce menos {crop} en {department} con {production} toneladas."
+    },
+    {
+      "question": "¿En qué departamento se produce más café?",
+      "type": "crop_production",
+      "answer_template": "Se produce más {crop} en {department} con {production} toneladas."
+    },
+    {
+      "question": "¿Cuál es la producción de tomate en Cundinamarca?",
+      "type": "crop_production",
+      "answer_template": "En {department}, la producción de {crop} es de {production} toneladas."
+    },
+    {
+      "question": "¿Cuánto maíz se produjo en Manizales en 2020?",
+      "type": "production_query",
+      "answer_template": "En {location} ({location_type}), se produjeron {production_ton} toneladas de {crop} en {year}."
+    },
+    {
+      "question": "¿Qué cultivo es más rentable en Antioquia?",
+      "type": "crop_profitability",
+      "answer_template": "En {department}, sembrar {crop} es más rentable con un rendimiento de {yield_value} toneladas/ha."
+    },
+    {
+      "question": "¿Qué cultivo tiene el mayor rendimiento en Valle del Cauca?",
+      "type": "crop_profitability",
+      "answer_template": "En {department}, el cultivo con mayor rendimiento es {crop} con {yield_value} toneladas/ha."
+    },
+    {
+      "question": "¿Dónde es menos favorable sembrar maíz?",
+      "type": "least_favorable_department",
+      "answer_template": "El departamento menos favorable para sembrar {crop} es {department} con un rendimiento de {value} ton/ha en {year}."
+    },
+    {
+      "question": "¿Cuándo debo sembrar maíz?",
+      "type": "crop_timing",
+      "answer_template": "El mejor momento para sembrar {crop} es en {month}, según las condiciones habituales en Colombia."
+    },
+    {
+      "question": "¿Cómo puedo optimizar el riego?",
+      "type": "irrigation_advice",
+      "answer_template": "Para optimizar el riego en {city}, usa riego por goteo y riega temprano en la mañana. {recommendation}"
+    },
+    {
+      "question": "¿Cómo está el clima para sembrar en mi región?",
+      "type": "weather_sowing_advice",
+      "answer_template": "En {city}: {description}, {temp}°C, {humidity}%. {recommendation}"
+    }
+  ]
+}

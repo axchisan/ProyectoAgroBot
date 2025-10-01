@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estado del Cultivo - Agrobot</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="crop-status-page">
+    <div class="page-layout">
+        <div class="page-content">
+            <!-- Header -->
+            <div class="page-header">
+                <div class="header-left">
+                    <a href="{{ url_for('main.chat') }}" class="back-btn">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <h2>Estado del Cultivo</h2>
+                </div>
+                <div class="header-actions">
+                    <button class="settings-btn">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="crop-status-container">
+                <!-- Overview Cards -->
+                <div class="overview-cards grid-responsive grid-2">
+                    <div class="overview-card healthy">
+                        <div class="card-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Saludable</h3>
+                            <p>Estado general del cultivo</p>
+                        </div>
+                        <div class="card-status">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="overview-card warning">
+                        <div class="card-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Riego necesario</h3>
+                            <p>En las próximas 24h</p>
+                        </div>
+                        <div class="card-status">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Metrics -->
+                <div class="metrics-section">
+                    <h3>Métricas de Crecimiento</h3>
+                    
+                    <div class="grid-responsive grid-1">
+                        <div class="metric-item card-responsive">
+                            <div class="metric-header">
+                                <div class="metric-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="metric-info">
+                                    <h4>Nivel de crecimiento</h4>
+                                    <span class="metric-value">70%</span>
+                                </div>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar-modern">
+                                    <div class="progress-fill" style="width: 70%" data-color="success"></div>
+                                </div>
+                            </div>
+                            <p class="metric-description">Crecimiento dentro del rango esperado</p>
+                        </div>
+
+                        <div class="metric-item card-responsive">
+                            <div class="metric-header">
+                                <div class="metric-icon">
+                                    <i class="fas fa-tint"></i>
+                                </div>
+                                <div class="metric-info">
+                                    <h4>Necesidad de riego</h4>
+                                    <span class="metric-value">90%</span>
+                                </div>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar-modern">
+                                    <div class="progress-fill" style="width: 90%" data-color="danger"></div>
+                                </div>
+                            </div>
+                            <p class="metric-description">Riego urgente requerido</p>
+                        </div>
+
+                        <div class="metric-item card-responsive">
+                            <div class="metric-header">
+                                <div class="metric-icon">
+                                    <i class="fas fa-bug"></i>
+                                </div>
+                                <div class="metric-info">
+                                    <h4>Plagas detectadas</h4>
+                                    <span class="metric-value">10%</span>
+                                </div>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar-modern">
+                                    <div class="progress-fill" style="width: 10%" data-color="warning"></div>
+                                </div>
+                            </div>
+                            <p class="metric-description">Nivel bajo de plagas detectadas</p>
+                        </div>
+
+                        <div class="metric-item card-responsive">
+                            <div class="metric-header">
+                                <div class="metric-icon">
+                                    <i class="fas fa-thermometer-half"></i>
+                                </div>
+                                <div class="metric-info">
+                                    <h4>Condiciones ambientales</h4>
+                                    <span class="metric-value">85%</span>
+                                </div>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar-modern">
+                                    <div class="progress-fill" style="width: 85%" data-color="success"></div>
+                                </div>
+                            </div>
+                            <p class="metric-description">Condiciones favorables</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Analysis -->
+                <div class="ai-analysis card-responsive">
+                    <div class="analysis-header">
+                        <div class="ai-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>Análisis de AGROBOT</h3>
+                    </div>
+                    <div class="analysis-content">
+                        <p>El crecimiento de los cultivos es bueno y está dentro del rango esperado para esta época del año. Se requiere riego pronto debido a los bajos niveles de humedad del suelo. Una plaga menor ha sido detectada, pero no representa un riesgo inmediato. Recomiendo tomar acción preventiva.</p>
+                    </div>
+                    <div class="analysis-recommendations">
+                        <h4>Recomendaciones inmediatas:</h4>
+                        <ul>
+                            <li>Programar riego para las próximas 24 horas</li>
+                            <li>Aplicar tratamiento preventivo contra plagas</li>
+                            <li>Monitorear temperatura del suelo</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons-grid grid-responsive grid-2">
+                    <button class="action-btn primary">
+                        <i class="fas fa-tint"></i>
+                        <span>Programar riego</span>
+                    </button>
+                    <button class="action-btn secondary">
+                        <i class="fas fa-bug"></i>
+                        <span>Tratar plagas</span>
+                    </button>
+                    <button class="action-btn outline">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Ver reporte completo</span>
+                    </button>
+                    <button class="action-btn outline">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Programar revisión</span>
+                    </button>
+                </div>
+
+                <!-- Historical Data -->
+                <div class="historical-section card-responsive">
+                    <h3>Historial de Crecimiento</h3>
+                    <div class="chart-placeholder">
+                        <div class="chart-bars">
+                            <div class="bar" style="height: 40%"></div>
+                            <div class="bar" style="height: 60%"></div>
+                            <div class="bar" style="height: 70%"></div>
+                            <div class="bar" style="height: 65%"></div>
+                            <div class="bar" style="height: 80%"></div>
+                            <div class="bar" style="height: 85%"></div>
+                            <div class="bar" style="height: 90%"></div>
+                        </div>
+                        <div class="chart-labels">
+                            <span>Sem 1</span>
+                            <span>Sem 2</span>
+                            <span>Sem 3</span>
+                            <span>Sem 4</span>
+                            <span>Sem 5</span>
+                            <span>Sem 6</span>
+                            <span>Actual</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        // barras de carga
+        document.addEventListener('DOMContentLoaded', () => {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach((bar, index) => {
+                setTimeout(() => {
+                    bar.style.transform = 'scaleX(1)';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>

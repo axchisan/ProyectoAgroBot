@@ -1,0 +1,160 @@
+.analytics-page {
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+            min-height: 100vh;
+        }
+
+        .analytics-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .overview-section,
+        .categories-section,
+        .crops-section,
+        .quick-actions-section {
+            margin-bottom: 40px;
+        }
+
+        .overview-section h3,
+        .categories-section h3,
+        .crops-section h3,
+        .quick-actions-section h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .stat-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--light-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-green);
+            font-size: 20px;
+        }
+
+        .stat-info h4 {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: var(--text-light);
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        .category-card {
+            padding: 25px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .category-header h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        .category-card p {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .category-stats {
+            margin-bottom: 20px;
+        }
+
+        .category-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .crops-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .crop-tag {
+            background: rgba(74, 124, 89, 0.1);
+            color: var(--primary-green);
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .crop-tag.more-crops {
+            background: var(--accent-orange);
+            color: white;
+        }
+
+        .badge {
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .bg-primary { background-color: var(--primary-green) !important; }
+        .bg-success { background-color: var(--success) !important; }
+        .bg-warning { background-color: var(--warning) !important; }
+        .bg-info { background-color: #17a2b8 !important; }
+
+        @media (max-width: 768px) {
+            .grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }

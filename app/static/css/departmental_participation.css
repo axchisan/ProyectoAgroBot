@@ -1,0 +1,132 @@
+ .ranking-section {
+            margin-bottom: 30px;
+        }
+
+        .ranking-section h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .ranking-card {
+            padding: 20px;
+        }
+
+        .ranking-card h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+            text-align: center;
+        }
+
+        .ranking-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .rank-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .rank-position {
+            width: 30px;
+            height: 30px;
+            background: var(--primary-green);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .rank-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .rank-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .rank-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .rank-progress {
+            height: 100%;
+            border-radius: 4px;
+        }
+
+        .rank-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary-green);
+            width: 60px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .trends-section {
+            margin-bottom: 30px;
+        }
+
+        .trends-section h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .loading-spinner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            color: var(--text-light);
+            gap: 15px;
+        }
+
+        .loading-spinner i {
+            font-size: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .rank-item {
+                gap: 10px;
+            }
+            
+            .rank-position {
+                width: 25px;
+                height: 25px;
+                font-size: 12px;
+            }
+            
+            .rank-name {
+                font-size: 12px;
+            }
+            
+            .rank-value {
+                font-size: 12px;
+                width: 50px;
+            }
+        }

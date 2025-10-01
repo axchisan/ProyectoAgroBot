@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat con Agrobot</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="chat-page">
+    <div class="page-layout">
+        <div class="chat-container-modern">
+            <!-- Header -->
+            <div class="chat-header">
+                <div class="header-left">
+                    <a href="{{ url_for('main.index') }}" class="back-btn">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <div class="bot-info">
+                        <div class="bot-avatar">
+                            <img src="{{ url_for('static', filename='images/robot.png') }}" alt="Agrobot" class="robot-image">
+                            <div class="status-indicator"></div>
+                        </div>
+                        <div class="bot-details">
+                            <h3>AGROBOT</h3>
+                            <span class="status">En línea</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="action-btn" onclick="toggleMenu()">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chat Messages -->
+            <div class="chat-messages" id="chatMessages">
+                {% for message in chat_history %}
+                    <div class="message-wrapper {{ 'user-message' if message.role == 'user' else 'bot-message' }}">
+                        {% if message.role == 'agrobot' %}
+                            <div class="message-avatar">
+                                <img src="{{ url_for('static', filename='images/robot.png') }}" alt="Agrobot" class="robot-image">
+                            </div>
+                        {% endif %}
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                {{ message.message | replace('**', '') | replace('', '') | safe }}
+                            </div>
+                            <div class="message-time">
+                                {{ message.timestamp if message.timestamp else '12:00' }}
+                            </div>
+                        </div>
+                        {% if message.role == 'user' %}
+                            <div class="message-avatar user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <div id="typingIndicator" class="typing-indicator d-none">
+                    <div class="message-avatar">
+                        <img src="{{ url_for('static', filename='images/robot.png') }}" alt="Agrobot" class="robot-image">
+                    </div>
+                    <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <div class="action-chips">
+                    <a href="{{ url_for('analytics.dashboard') }}" class="chip analytics-chip">
+                        <i class="fas fa-chart-pie"></i>
+                        <span class="d-none d-sm-inline">Analytics</span>
+                    </a>
+                    <a href="{{ url_for('main.weather') }}" class="chip">
+                        <i class="fas fa-cloud-sun"></i>
+                        <span class="d-none d-sm-inline">Clima</span>
+                    </a>
+                    <a href="{{ url_for('main.recommend') }}" class="chip">
+                        <i class="fas fa-seedling"></i>
+                        <span class="d-none d-sm-inline">Siembra</span>
+                    </a>
+                    <a href="{{ url_for('main.crop_status') }}" class="chip">
+                        <i class="fas fa-chart-bar"></i>
+                        <span class="d-none d-sm-inline">Estado</span>
+                    </a>
+                    <a href="{{ url_for('main.support') }}" class="chip">
+                        <i class="fas fa-headset"></i>
+                        <span class="d-none d-sm-inline">Soporte</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="chat-input-area">
+                <form method="POST" id="chatForm" class="input-form">
+                    <div class="input-container">
+                        <button type="button" class="attachment-btn d-none d-md-flex">
+                            <i class="fas fa-paperclip"></i>
+                        </button>
+                        <input type="text" 
+                               class="message-input" 
+                               name="user_input" 
+                               id="userInput" 
+                               placeholder="Escribe tu pregunta..." 
+                               required>
+                        <button type="submit" class="send-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </form>
+                <div class="input-actions d-none d-md-flex">
+                    <button type="button" class="voice-btn">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <button type="button" class="clear-btn" onclick="if(confirm('¿Estás seguro de vaciar el chat?')) window.location.href='{{ url_for('main.clear_chat') }}'">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Overlay -->
+        <div class="menu-overlay" id="menuOverlay">
+            <div class="menu-content">
+                <a href="{{ url_for('analytics.dashboard') }}" class="menu-item">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Dashboard Analytics</span>
+                </a>
+                <a href="{{ url_for('analytics.national_crops') }}" class="menu-item">
+                    <i class="fas fa-seedling"></i>
+                    <span>Datos de Cultivos</span>
+                </a>
+                <div class="menu-item" onclick="exportChat()">
+                    <i class="fas fa-download"></i>
+                    <span>Exportar chat</span>
+                </div>
+                <div class="menu-item" onclick="openSettings()">
+                    <i class="fas fa-cog"></i>
+                    <span>Configuración</span>
+                </div>
+                <div class="menu-divider"></div>
+                <div class="menu-item" onclick="if(confirm('¿Estás seguro de vaciar el chat?')) window.location.href='{{ url_for('main.clear_chat') }}'">
+                    <i class="fas fa-trash text-danger"></i>
+                    <span>Limpiar chat</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        function toggleMenu() {
+            const overlay = document.getElementById('menuOverlay');
+            overlay.classList.toggle('active');
+        }
+
+        function exportChat() {
+            const chatHistory = {{ chat_history | tojson }};
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(chatHistory, null, 2));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "agrobot_chat_" + new Date().toISOString().split('T')[0] + ".json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+            
+            document.getElementById('menuOverlay').classList.remove('active');
+            showNotification('Chat exportado exitosamente', 'success');
+        }
+
+        function openSettings() {
+            showNotification('Configuraciones en desarrollo', 'info');
+            document.getElementById('menuOverlay').classList.remove('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatMessages = document.getElementById('chatMessages');
+            const form = document.getElementById('chatForm');
+            const typingIndicator = document.getElementById('typingIndicator');
+            
+            // Auto scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Handle form submission
+            form.addEventListener('submit', (e) => {
+                typingIndicator.classList.remove('d-none');
+                setTimeout(() => {
+                    typingIndicator.classList.add('d-none');
+                }, 2000);
+            });
+            
+            // Cerrar menú al hacer clic fuera
+            document.getElementById('menuOverlay').addEventListener('click', (e) => {
+                if (e.target.classList.contains('menu-overlay')) {
+                    toggleMenu();
+                }
+            });
+
+            // Solicitar ubicación al usuario
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        console.log(`Coordenadas obtenidas: lat=${lat}, lon=${lon}`);  // Log para depuración
+                        fetch('/update_location', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                lat: lat,
+                                lon: lon
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                console.log('Ubicación actualizada correctamente.');
+                                // En weather.html, ya tienes refreshWeather() aquí
+                            } else {
+                                console.error('Error al actualizar ubicación:', data.error);
+                            }
+                        })
+                        .catch(error => console.error('Error al enviar ubicación al servidor:', error));
+                    },
+                    function(error) {
+                        console.error('Error al obtener la geolocalización:', error.message);
+                        // Mostrar notificación al usuario
+                        alert('No se pudo obtener tu ubicación. Por favor, indica tu ciudad manualmente en el chat (por ejemplo, "Estoy en Bogotá").');
+                    }
+                );
+            } else {
+                console.log('La geolocalización no está soportada en este navegador.');
+                alert('Tu navegador no soporta geolocalización. Por favor, indica tu ciudad manualmente en el chat (por ejemplo, "Estoy en Bogotá").');
+            }
+        });
+    </script>
+</body>
+</html>
